@@ -7,7 +7,7 @@ import FirstScreen from '../screens/FirstScreen'
 import ListScreen from '../screens/ListScreen';
 import BfScreen from '../screens/BfScreen';
 import WeightScreen from '../screens/WeightScreen';
-import {Ionicons} from '@expo/vector-icons';
+import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import ColorSelector from '../components/ColorSelector';
 
 const NavScreen1 = createStackNavigator(
@@ -80,8 +80,8 @@ const Navegador = createMaterialTopTabNavigator(
 			navigationOptions: {
 				tabBarIcon: () => {
 					return (
-						<Ionicons
-							name="ios-add-circle"
+						<MaterialCommunityIcons
+							name="scale-bathroom"
 							size={32}
 							color={Pc}
 							style={{
