@@ -1,7 +1,4 @@
-NevRedux/node_modules/**/*
-Elements
 node_modules/**/*
-node_modules/
 .expo/*
 npm-debug.*
 *.jks

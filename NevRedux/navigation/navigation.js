@@ -70,8 +70,6 @@ const Navegador = createMaterialTopTabNavigator(
 						/>
 					);
 				}
-
-				//
 			}
 		},
 

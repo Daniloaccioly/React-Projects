@@ -48,7 +48,7 @@ const GridTile = props => {
 			<TouchableCmp
 				onPress={() => {
 					colorHandler();
-					console.log(props.color);
+					//console.log(otherParam);
 				}}
 				style={{ flex: 1 }}
 			>

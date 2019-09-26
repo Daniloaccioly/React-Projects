@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import colorReducer from './reducers/colorReducer';
 import MainScreen from './screens/MainScreen';
+import { AppRegistry } from 'react-native';
 
 const rootReducer = combineReducers({
 	colors: colorReducer
@@ -36,7 +37,7 @@ export default function App() {
 
 	return (
 		<Provider store={store}>
-			<MainScreen/>
+			<MainScreen />
 		</Provider>
 	);
 }

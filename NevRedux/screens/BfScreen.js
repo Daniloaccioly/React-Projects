@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const BfScreen = props => {
 
+	let xibiu =  useSelector(state => state.colors)
 	return (
 		<View style={{
 			...styles.container,
@@ -29,7 +30,8 @@ const BfScreen = props => {
 				noBackground
 				title="Main Menu"
 				onPress={() => {
-					console.log('okey');
+					props.navigation.setParams({ otherParam: xibiu });
+					console.log(props.navigation.getParam('otherParam'));
 				}}
 			></Button>
 		</View>

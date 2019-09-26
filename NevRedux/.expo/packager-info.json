@@ -1,9 +1,0 @@
-{
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://kt-5a3.danilo92.nevredux.exp.direct",
-  "packagerNgrokUrl": "https://packager.kt-5a3.danilo92.nevredux.exp.direct",
-  "ngrokPid": 5108,
-  "devToolsPort": 19002,
-  "packagerPort": 19003,
-  "packagerPid": 5046
-}

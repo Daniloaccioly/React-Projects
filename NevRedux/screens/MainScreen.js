@@ -26,7 +26,6 @@ const MainScreen = props =>{
 
 const styles = StyleSheet.create({
 	body: {
-		backgroundColor: '#8f1d1d',
 		flex: 95,
 		borderColor: ColorSelector.SecondaryColor,
 		borderWidth: 3,
