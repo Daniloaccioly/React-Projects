@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, FlatList } from 'react-native';
 import Button from 'react-native-buttonex';
 import ColorSelector from '../components/ColorSelector';
 import GridTile from '../components/GridTile';
-import { MODEL } from '../Data/dummy-data';
+import { MODEL } from '../data/dummy-data';
 
 const FirstScreen = props => {
 

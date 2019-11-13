@@ -1,19 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+import { AppLoading } from 'expo';
+import { Block, GalioProvider } from 'galio-framework';
+import Screens from './navigation/Screens';
+import { argonTheme } from './constants';
+import defaultReducer from './reducers/default';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const rootReducer = combineReducers({
+	default: defaultReducer
 });
+
+const store = createStore(rootReducer);
+
+export default class App extends React.Component {
+
+	render() {
+		return (
+			<GalioProvider theme={argonTheme}>
+				<Block flex>
+					<Provider store={store}>
+						<Screens />
+					</Provider>
+				</Block>
+			</GalioProvider>
+		);
+	}
+}
