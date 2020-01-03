@@ -1,11 +1,16 @@
-import { CHANGECOLOR } from '../actions/actions';
+import { CHANGECOLOR, GETWEIGHT } from '../actions/actions';
 
-const initialColor = 'lightgreen';
+const initialState = {
+	initialColor: 'lightgreen'
+}
 
-const defaultReducer = (state = initialColor, action) => {
+const defaultReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case CHANGECOLOR:
                    return text
+
+		 case GETWEIGHT:
+			return text
 
 		default:
 			return state;

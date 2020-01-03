@@ -1,27 +1,39 @@
 import React, { useState } from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage, alert } from 'react-native';
 import { Block, theme, Text, Input, Button } from 'galio-framework';
+import {calc}  from '../components/functions/CalculatorBF';
 
 const { width } = Dimensions.get('screen');
 
 class Weight extends React.Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
-			weightvalue: 0,
+			wei: 0,
 		};
 	}
 
-	
+	async componentDidMount() {
+		try {
+			this.setState({ 
+				weight: await AsyncStorage.getItem('@weight'),
+			});
+		}catch (e){
+			alert(e);
+		}
+	}
+
 	storeWeight = async () => {
 		try {
-			await AsyncStorage.setItem('@weight', this.state.weightvalue);
-			this.state.display = await AsyncStorage.getItem('@weight');
+			await AsyncStorage.setItem('@weight', this.state.wei);
+			this.setState({ 
+				weight: await AsyncStorage.getItem('@weight'),
+			});
 		} catch (e) {
 			alert(e);
 		}
 	};
-
 
 	render() {
 		return (
@@ -33,7 +45,7 @@ class Weight extends React.Component {
 						placeholder="placeholder"
 						placeholderTextColor={'#8898AA'}
 						keyboardType="number-pad"
-						onChangeText={text => { this.setState({ weightvalue: text }) } }
+						onChangeText={text => { this.setState({ wei: text }) } }
 					/>
 				</Block>
 				<Block style={styles.text}>
@@ -48,18 +60,19 @@ class Weight extends React.Component {
 				</Block>
 				<Block>
 					<Text style={styles.text}>
-						{this.state.weightvalue}
+						{this.state.wei}
 					</Text>
 				</Block>
 				<Block>
 					<Text style={styles.text}>
-						{this.state.display}
+						{this.state.weight}
 					</Text>
 				</Block>
 			</ScrollView>
 		);
 	}
 }
+
 
 
 const styles = StyleSheet.create({

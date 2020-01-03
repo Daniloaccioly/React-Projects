@@ -1,10 +1,44 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Block, theme, Text, Input } from 'galio-framework';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage, alert } from 'react-native';
+import { Block, theme, Text, Input, Button } from 'galio-framework';
 
 const { width } = Dimensions.get('screen');
 
 class BfScreen extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			weight: 0,
+			final: 0,
+		};
+	}
+
+	async componentDidMount() {
+		try {
+			this.setState({ 
+				weight: await AsyncStorage.getItem('@weight'),
+				//get height
+				//get neck
+				//get biceps
+				//get weist
+				final: await AsyncStorage.getItem('@final'),
+			});
+		}catch (e){
+			alert(e);
+		}
+	}
+
+	final = async () => {
+		try {
+			await AsyncStorage.setItem('@final', this.state.weight + this.state.weight);
+			this.setState({ 
+				final: await AsyncStorage.getItem('@final')});
+		} catch (e) {
+			alert(e);
+		}
+	};
+
 	renderArticles = () => {
 		return (
 			<ScrollView
@@ -66,6 +100,21 @@ class BfScreen extends React.Component {
 							}}>00%</Text>
 					</Block>
 				</Block>
+				<Block style={styles.text}>
+					<Button
+						style={styles.input}
+						round
+						size="small"
+						onPress={ this.final}
+					>
+						Calc
+					</Button>
+				</Block>
+				<Block>
+					<Text style={styles.text}>
+						{this.state.final}
+					</Text>
+				</Block>
 			</ScrollView>
 		);
 	};
@@ -97,7 +146,7 @@ const styles = StyleSheet.create({
 	text: {
 		//h1:true,
 		flex: 1,
-		fontSize: 16,
+		fontSize: 24,
 		alignContent: 'flex-end',
 		textAlign: 'right',
 		alignSelf: 'center',
