@@ -1,38 +1,54 @@
 import React, { useState } from 'react';
-import { StyleSheet, Dimensions, ScrollView, AsyncStorage, alert } from 'react-native';
+import {
+	StyleSheet,
+	Dimensions,
+	ScrollView,
+	AsyncStorage,
+	alert
+} from 'react-native';
 import { Block, theme, Text, Input, Button } from 'galio-framework';
-import {calc}  from '../components/functions/CalculatorBF';
+import { argonTheme } from '../constants/index';
 
 const { width } = Dimensions.get('screen');
 
 class Weight extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			wei: 0,
+			wei: 0
 		};
 	}
 
 	async componentDidMount() {
 		try {
-			this.setState({ 
-				weight: await AsyncStorage.getItem('@weight'),
+			this.setState({
+				weight: await AsyncStorage.getItem('@weight')
 			});
-		}catch (e){
-			alert(e);
+		} catch (error) {
+			console.log('Weight.js: Error retrieving data ' + error);
 		}
 	}
 
 	storeWeight = async () => {
 		try {
 			await AsyncStorage.setItem('@weight', this.state.wei);
-			this.setState({ 
-				weight: await AsyncStorage.getItem('@weight'),
+			this.setState({
+				weight: await AsyncStorage.getItem('@weight')
 			});
-		} catch (e) {
-			alert(e);
+		} catch (error) {
+			console.log('Weight.js: Error retrieving data ' + error);
 		}
+	};
+
+	setWeight = text => {
+		this.setState({ wei: text });
+		setTimeout(() => {
+			this.storeWeight();
+		}, 1);
+	};
+
+	clearAsyncStorage = async () => {
+		AsyncStorage.clear();
 	};
 
 	render() {
@@ -42,38 +58,32 @@ class Weight extends React.Component {
 					<Text style={styles.text}>Weight: </Text>
 					<Input
 						color="black"
-						placeholder="placeholder"
-						placeholderTextColor={'#8898AA'}
+						placeholder="new value"
+						placeholderTextColor={
+							argonTheme.COLORS.INPUT
+						}
 						keyboardType="number-pad"
-						onChangeText={text => { this.setState({ wei: text }) } }
+						onChangeText={this.setWeight}
 					/>
-				</Block>
-				<Block style={styles.text}>
-					<Button
-						style={styles.input}
-						round
-						size="small"
-						onPress={ this.storeWeight}
-					>
-						Gravar
-					</Button>
-				</Block>
-				<Block>
-					<Text style={styles.text}>
-						{this.state.wei}
-					</Text>
 				</Block>
 				<Block>
 					<Text style={styles.text}>
 						{this.state.weight}
 					</Text>
 				</Block>
+				<Block style={styles.text}>
+					<Button
+						style={styles.input}
+						round
+						size="small"
+						onPress={this.clearAsyncStorage}>
+						<Text>Clear Async Storage</Text>
+					</Button>
+				</Block>
 			</ScrollView>
 		);
 	}
 }
-
-
 
 const styles = StyleSheet.create({
 	home: {

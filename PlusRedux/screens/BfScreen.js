@@ -1,44 +1,117 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, AsyncStorage, alert } from 'react-native';
+import {
+	StyleSheet,
+	Dimensions,
+	ScrollView,
+	AsyncStorage,
+	alert
+} from 'react-native';
 import { Block, theme, Text, Input, Button } from 'galio-framework';
+import { argonTheme } from '../constants/index';
 
 const { width } = Dimensions.get('screen');
 
 class BfScreen extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			weight: 0,
-			final: 0,
+			weightv: '95',
+			heightv: '177',
+			neckv: '40',
+			hipv: '100',
+			weistv: '90',
+			finalv: '0'
 		};
 	}
 
 	async componentDidMount() {
+
 		try {
-			this.setState({ 
+			this.setState({
 				weight: await AsyncStorage.getItem('@weight'),
-				//get height
-				//get neck
-				//get biceps
-				//get weist
-				final: await AsyncStorage.getItem('@final'),
+				height: await AsyncStorage.getItem('@height'),
+				neck: await AsyncStorage.getItem('@neck'),
+				hip: await AsyncStorage.getItem('@hip'),
+				weist: await AsyncStorage.getItem('@weist'),
+				final: await AsyncStorage.getItem('@final')
 			});
-		}catch (e){
-			alert(e);
+
+			if (this.state.height === null) {
+				this.storeData(
+					(arg1 = '@height'),
+					(arg2 = this.state.heightv),
+					(arg3 = 'height')
+				);
+				//console.log(arg1, arg2, arg3);
+			}	
+
+			if (this.state.neck === null) {
+				this.storeData(
+					(arg1 = '@neck'),
+					(arg2 = this.state.neckv),
+					(arg3 = 'neck')
+				);
+			}
+
+			if (this.state.hip === null) {
+				this.storeData(
+					(arg1 = '@hip'),
+					(arg2 = this.state.hipv),
+					(arg3 = 'hip')
+				);
+			}
+
+			if (this.state.neck === null) {
+				this.storeData(
+					(arg1 = '@weist'),
+					(arg2 = this.state.weistv),
+					(arg3 = 'weist')
+				);
+			}
+		} catch (error) {
+			console.log('BfScreen.js: Error retrieving data ' + error);
 		}
 	}
 
-	final = async () => {
+	storeData = async (arg1, arg2, arg3) => {
 		try {
-			await AsyncStorage.setItem('@final', this.state.weight + this.state.weight);
-			this.setState({ 
-				final: await AsyncStorage.getItem('@final')});
+			await AsyncStorage.setItem(arg1, arg2);
+			this.setState({
+				arg3: await AsyncStorage.getItem(arg1)
+			});
 		} catch (e) {
 			alert(e);
 		}
 	};
 
+	final = async () => {
+		this.setState({
+			weight: await AsyncStorage.getItem('@weight'),
+			height: await AsyncStorage.getItem('@height'),
+			neck: await AsyncStorage.getItem('@neck'),
+			hip: await AsyncStorage.getItem('@hip'),
+			weist: await AsyncStorage.getItem('@weist')
+		});
+		if (this.state.neck !== null && this.state.height !== null && this.state.weist !== null) {
+			let heightn = parseFloat(this.state.height, 10)
+			let neckn = parseFloat(this.state.neck, 10)
+			let weistn = parseFloat(this.state.weist, 10)
+			let fin = 495 / (1.0324 - .19077 * Math.log10(weistn - neckn) + .15456 *Math.log10(heightn)) - 450
+			try {	
+				await AsyncStorage.setItem(
+					'@final',
+					fin.toString()
+				);
+				this.setState({
+					final: await AsyncStorage.getItem('@final')
+				});
+			} catch (error) {
+				console.log('BfScreen.js: Error retrieving data ' + error);
+			}
+		}
+	};
+
+	
 	renderArticles = () => {
 		return (
 			<ScrollView
@@ -50,36 +123,36 @@ class BfScreen extends React.Component {
 						<Text style={styles.text}>Height: </Text>
 						<Input
 							color="black"
-							placeholder="placeholder"
+							placeholder={this.state.height}
 							placeholderTextColor={'#8898AA'}
-							keyboardType='number-pad'
+							keyboardType="number-pad"
 						/>
 					</Block>
 					<Block style={styles.input}>
 						<Text style={styles.text}>Neck: </Text>
 						<Input
 							color="black"
-							placeholder="placeholder"
+							placeholder={this.state.neck}
 							placeholderTextColor={'#8898AA'}
-							keyboardType='number-pad'
+							keyboardType="number-pad"
 						/>
 					</Block>
 					<Block style={styles.input}>
-						<Text style={styles.text}>Biceps: </Text>
+						<Text style={styles.text}>Hip: </Text>
 						<Input
 							color="black"
-							placeholder="placeholder"
+							placeholder={this.state.hip}
 							placeholderTextColor={'#8898AA'}
-							keyboardType='number-pad'
+							keyboardType="number-pad"
 						/>
 					</Block>
 					<Block style={styles.input}>
 						<Text style={styles.text}>Weist: </Text>
 						<Input
 							color="black"
-							placeholder="placeholder"
+							placeholder={this.state.weist}
 							placeholderTextColor={'#8898AA'}
-							keyboardType='number-pad'
+							keyboardType="number-pad"
 						/>
 					</Block>
 					<Block style={styles.input}>
@@ -90,14 +163,20 @@ class BfScreen extends React.Component {
 									fontSize: 28
 								}
 							}}
-						>BF: </Text>
-						<Text style={{
+						>
+							BF:{' '}
+						</Text>
+						<Text
+							style={{
 								...styles.text,
 								...{
 									fontSize: 28,
 									textAlign: 'left'
 								}
-							}}>00%</Text>
+							}}
+						>
+							00%
+						</Text>
 					</Block>
 				</Block>
 				<Block style={styles.text}>
@@ -105,7 +184,7 @@ class BfScreen extends React.Component {
 						style={styles.input}
 						round
 						size="small"
-						onPress={ this.final}
+						onPress={this.final}
 					>
 						Calc
 					</Button>
