@@ -1,89 +1,75 @@
-import React, { useState } from 'react';
-import {
-	StyleSheet,
-	Dimensions,
-	ScrollView,
-	AsyncStorage,
-	alert
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Block, theme, Text, Input, Button } from 'galio-framework';
+import { useSelector, useDispatch } from 'react-redux';
 import { argonTheme } from '../constants/index';
+import Settings from '../components/Settings';
+import Weightinput from '../components/WeightInput'; // export default without braces {}, export normal with braces {}
 
 const { width } = Dimensions.get('screen');
 
-class Weight extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			wei: 0
-		};
-	}
+const Weight = props => {
 
-	async componentDidMount() {
+	const addWeightHandler = enteredWeight => {
+		setWeight(enteredWeight);
+		setIsAddMode(false);
+		AsyncStorage.setItem('@weight', enteredWeight);
+	};
+
+	const [Weight, setWeight] = useState('');
+	const [isAddMode, setIsAddMode] = useState(false); // Make WeightInput visible/invisible
+	const [isSettingsMode, setSettingsMode] = useState(false); // Make Settings visible/invisible
+	//const ;
+
+	async function getWeightValue() {
+		let value = '';
 		try {
-			this.setState({
-				weight: await AsyncStorage.getItem('@weight')
-			});
-		} catch (error) {
-			console.log('Weight.js: Error retrieving data ' + error);
+			value = await AsyncStorage.getItem('@weight');
+		} catch {
+			Console.log('Erro');
+		} finally {
+			setWeight(value);
 		}
 	}
 
-	storeWeight = async () => {
-		try {
-			await AsyncStorage.setItem('@weight', this.state.wei);
-			this.setState({
-				weight: await AsyncStorage.getItem('@weight')
-			});
-		} catch (error) {
-			console.log('Weight.js: Error retrieving data ' + error);
-		}
-	};
+	useEffect(() => {
+		getWeightValue();
+	}, []);
 
-	setWeight = text => {
-		this.setState({ wei: text });
-		setTimeout(() => {
-			this.storeWeight();
-		}, 1);
-	};
-
-	clearAsyncStorage = async () => {
-		AsyncStorage.clear();
-	};
-
-	render() {
-		return (
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<Block style={styles.input}>
-					<Text style={styles.text}>Weight: </Text>
-					<Input
-						color="black"
-						placeholder="new value"
-						placeholderTextColor={
-							argonTheme.COLORS.INPUT
-						}
-						keyboardType="number-pad"
-						onChangeText={this.setWeight}
-					/>
-				</Block>
-				<Block>
-					<Text style={styles.text}>
-						{this.state.weight}
-					</Text>
-				</Block>
-				<Block style={styles.text}>
-					<Button
-						style={styles.input}
-						round
-						size="small"
-						onPress={this.clearAsyncStorage}>
-						<Text>Clear Async Storage</Text>
-					</Button>
-				</Block>
-			</ScrollView>
-		);
-	}
-}
+	return (
+		<ScrollView showsVerticalScrollIndicator={false}>
+			<Block style={styles.input}>
+				<Text style={styles.text}>Weight: </Text>
+				<Text
+					 style={{
+						 ...styles.text,
+						...{ 
+							textAlign: 'left',
+					}
+				}}
+				>{Weight}</Text>
+			</Block>
+			<Block style={styles.text}>
+				<Button
+					style={styles.input}
+					round
+					size="small"
+					onPress={() => setIsAddMode(true)}
+				>
+					<Text color="white">Weight Update</Text>
+				</Button>
+				<Weightinput
+					visible={isAddMode}
+					onAddWeight={addWeightHandler}
+				/>
+				<Settings
+					visible={isSettingsMode}
+					onSettings={addWeightHandler}
+				/>
+			</Block>
+		</ScrollView>
+	);
+};
 
 const styles = StyleSheet.create({
 	home: {

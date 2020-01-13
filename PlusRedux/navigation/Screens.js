@@ -4,8 +4,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 
-import { Block } from 'galio-framework';
-
 // screens
 import FirstScreen from '../screens/FirstScreen';
 import Weight from '../screens/Weight';

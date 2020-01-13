@@ -15,7 +15,6 @@ class BfScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			weightv: '95',
 			heightv: '177',
 			neckv: '40',
 			hipv: '100',
@@ -25,10 +24,8 @@ class BfScreen extends React.Component {
 	}
 
 	async componentDidMount() {
-
 		try {
 			this.setState({
-				weight: await AsyncStorage.getItem('@weight'),
 				height: await AsyncStorage.getItem('@height'),
 				neck: await AsyncStorage.getItem('@neck'),
 				hip: await AsyncStorage.getItem('@hip'),
@@ -42,7 +39,6 @@ class BfScreen extends React.Component {
 					(arg2 = this.state.heightv),
 					(arg3 = 'height')
 				);
-				//console.log(arg1, arg2, arg3);
 			}	
 
 			if (this.state.neck === null) {
@@ -86,7 +82,6 @@ class BfScreen extends React.Component {
 
 	final = async () => {
 		this.setState({
-			weight: await AsyncStorage.getItem('@weight'),
 			height: await AsyncStorage.getItem('@height'),
 			neck: await AsyncStorage.getItem('@neck'),
 			hip: await AsyncStorage.getItem('@hip'),
@@ -97,6 +92,7 @@ class BfScreen extends React.Component {
 			let neckn = parseFloat(this.state.neck, 10)
 			let weistn = parseFloat(this.state.weist, 10)
 			let fin = 495 / (1.0324 - .19077 * Math.log10(weistn - neckn) + .15456 *Math.log10(heightn)) - 450
+			fin= fin.toFixed(1)
 			try {	
 				await AsyncStorage.setItem(
 					'@final',
@@ -164,7 +160,7 @@ class BfScreen extends React.Component {
 								}
 							}}
 						>
-							BF:{' '}
+							Body Fat:{' '}
 						</Text>
 						<Text
 							style={{
@@ -175,7 +171,7 @@ class BfScreen extends React.Component {
 								}
 							}}
 						>
-							00%
+							{this.state.final}%
 						</Text>
 					</Block>
 				</Block>
@@ -188,11 +184,6 @@ class BfScreen extends React.Component {
 					>
 						Calc
 					</Button>
-				</Block>
-				<Block>
-					<Text style={styles.text}>
-						{this.state.final}
-					</Text>
 				</Block>
 			</ScrollView>
 		);

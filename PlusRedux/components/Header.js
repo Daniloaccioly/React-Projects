@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { withNavigation } from 'react-navigation';
 import {
 	TouchableOpacity,
@@ -7,6 +7,7 @@ import {
 	Dimensions
 } from 'react-native';
 import { Button, Block, NavBar, Text, theme } from 'galio-framework';
+import Settings from '../components/Settings';
 
 import Icon from './Icon';
 import Tabs from './Tabs';

@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 const BfScreen = props => {
 
 	let xibiu =  useSelector(state => state.colors)
+	
 	return (
 		<View style={{
 			...styles.container,
