@@ -7,31 +7,14 @@ import {
 	Dimensions
 } from 'react-native';
 import { Button, Block, NavBar, Text, theme } from 'galio-framework';
-import Settings from '../components/Settings';
-
 import Icon from './Icon';
-import Tabs from './Tabs';
 import argonTheme from '../constants/Theme';
+import Settings from '../components/Settings';
 
 const { height, width } = Dimensions.get('window');
 const iPhoneX = () =>
 	Platform.OS === 'ios' &&
 	(height === 812 || width === 812 || height === 896 || width === 896);
-
-const BellButton = ({ isWhite, style, navigation }) => (
-	<TouchableOpacity
-		style={[styles.button, style]}
-		onPress={() => navigation.navigate('Pro')}
-	>
-		<Icon
-			family="ArgonExtra"
-			size={16}
-			name="bell"
-			color={argonTheme.COLORS[isWhite ? 'WHITE' : 'ICON']}
-		/>
-		<Block middle style={styles.notify} />
-	</TouchableOpacity>
-);
 
 const SettingsButton = ({ isWhite, style, navigation }) => (
 	<TouchableOpacity
@@ -40,7 +23,7 @@ const SettingsButton = ({ isWhite, style, navigation }) => (
 	>
 		<Icon
 			family="MaterialCommunityIcons"
-			size={16}
+			size={28}
 			name="cogs"
 			color={argonTheme.COLORS[isWhite ? 'WHITE' : 'ICON']}
 		/>
@@ -58,11 +41,6 @@ class Header extends React.Component {
 
 		if (title === 'Title') {
 			return [
-				<BellButton
-					key="chat-title"
-					navigation={navigation}
-					isWhite={white}
-				/>,
 				<SettingsButton
 					key="basket-title"
 					navigation={navigation}
@@ -74,11 +52,6 @@ class Header extends React.Component {
 		switch (routeName) {
 			case 'Weight':
 				return [
-					<BellButton
-						key="chat-weight"
-						navigation={navigation}
-						isWhite={white}
-					/>,
 					<SettingsButton
 						key="basket-weight"
 						navigation={navigation}
@@ -87,11 +60,6 @@ class Header extends React.Component {
 				];
 			case 'BfScreen':
 				return [
-					<BellButton
-						key="chat-bfscreen"
-						navigation={navigation}
-						isWhite={white}
-					/>,
 					<SettingsButton
 						key="basket-bfscreen"
 						navigation={navigation}
@@ -100,11 +68,6 @@ class Header extends React.Component {
 				];
 			case 'FirstScreen':
 				return [
-					<BellButton
-						key="chat-firstscreen"
-						navigation={navigation}
-						isWhite={white}
-					/>,
 					<SettingsButton
 						key="basket-firstscreen"
 						navigation={navigation}
@@ -177,27 +140,12 @@ class Header extends React.Component {
 			</Block>
 		);
 	};
-	renderTabs = () => {
-		const { tabs, tabIndex, navigation } = this.props;
-		const defaultTab = tabs && tabs[0] && tabs[0].id;
-
-		if (!tabs) return null;
-
-		return (
-			<Tabs
-				data={tabs || []}
-				initialIndex={tabIndex || defaultTab}
-				onChange={id => navigation.setParams({ tabId: id })}
-			/>
-		);
-	};
 	renderHeader = () => {
-		const { search, options, tabs } = this.props;
-		if (search || tabs || options) {
+		const { search, options } = this.props;
+		if (search || options) {
 			return (
 				<Block center>
 					{options ? this.renderOptions() : null}
-					{tabs ? this.renderTabs() : null}
 				</Block>
 			);
 		}
@@ -216,11 +164,8 @@ class Header extends React.Component {
 		} = this.props;
 		const { routeName } = navigation.state;
 		const noShadow = [
-			'Search',
-			'Categories',
-			'Deals',
-			'Pro',
-			'Profile'
+			'BfScreen',
+			'Weight',
 		].includes(routeName);
 		const headerStyles = [
 			!noShadow ? styles.shadow : null,
@@ -295,15 +240,6 @@ const styles = StyleSheet.create({
 		shadowRadius: 6,
 		shadowOpacity: 0.2,
 		elevation: 3
-	},
-	notify: {
-		backgroundColor: argonTheme.COLORS.LABEL,
-		borderRadius: 4,
-		height: theme.SIZES.BASE / 2,
-		width: theme.SIZES.BASE / 2,
-		position: 'absolute',
-		top: 9,
-		right: 12
 	},
 	header: {
 		backgroundColor: theme.COLORS.WHITE

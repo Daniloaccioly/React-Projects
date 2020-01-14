@@ -19,7 +19,6 @@ const Weight = props => {
 	const [Weight, setWeight] = useState('');
 	const [isAddMode, setIsAddMode] = useState(false); // Make WeightInput visible/invisible
 	const [isSettingsMode, setSettingsMode] = useState(false); // Make Settings visible/invisible
-	//const ;
 
 	async function getWeightValue() {
 		let value = '';

@@ -107,7 +107,6 @@ class BfScreen extends React.Component {
 		}
 	};
 
-	
 	renderArticles = () => {
 		return (
 			<ScrollView
