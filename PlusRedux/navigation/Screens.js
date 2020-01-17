@@ -14,7 +14,7 @@ import Menu from './Menu';
 import DrawerItem from '../components/DrawerItem';
 
 // header for screens
-import Header from '../components/Header';
+import Header, {navigationOptions} from '../components/Header';
 
 const transitionConfig = (transitionProps, prevTransitionProps) => ({
 	transitionSpec: {

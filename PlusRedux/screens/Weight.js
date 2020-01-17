@@ -3,7 +3,6 @@ import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Block, theme, Text, Input, Button } from 'galio-framework';
 import { useSelector, useDispatch } from 'react-redux';
 import { argonTheme } from '../constants/index';
-import Settings from '../components/Settings';
 import Weightinput from '../components/WeightInput'; // export default without braces {}, export normal with braces {}
 
 const { width } = Dimensions.get('screen');
@@ -18,7 +17,6 @@ const Weight = props => {
 
 	const [Weight, setWeight] = useState('');
 	const [isAddMode, setIsAddMode] = useState(false); // Make WeightInput visible/invisible
-	const [isSettingsMode, setSettingsMode] = useState(false); // Make Settings visible/invisible
 
 	async function getWeightValue() {
 		let value = '';
@@ -61,10 +59,6 @@ const Weight = props => {
 					visible={isAddMode}
 					onAddWeight={addWeightHandler}
 				/>
-				<Settings
-					visible={isSettingsMode}
-					onSettings={addWeightHandler}
-				/>
 			</Block>
 		</ScrollView>
 	);
@@ -93,7 +87,7 @@ const styles = StyleSheet.create({
 		textAlign: 'right',
 		alignSelf: 'center',
 		padding: 1
-	}
+	},
 });
 
 export default Weight;

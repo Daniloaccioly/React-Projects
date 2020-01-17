@@ -1,10 +1,10 @@
-import {CHANGECOLOR, CHANGEGENDER} from '../actions/actions';
+import {CHANGECOLOR, CHANGESETTINGS} from '../actions/actions';
+import { AsyncStorage } from 'react-native';
 
 const initialState = {
 	initialColor: 'lightgreen',
-	system: 'metric',
-	gender: 'male',
-	modalVisible: false
+	reduxMeasure: 'metric',
+	reduxGender: 'Male',
 }
 
 const defaultReducer = (state = initialState, action) => {
@@ -12,12 +12,15 @@ const defaultReducer = (state = initialState, action) => {
 		case CHANGECOLOR:
 			 return text
 
-		case CHANGEGENDER:
-			return {gender: state.gender= 'female'}
+		case CHANGESETTINGS:
+			AsyncStorage.setItem('@gender', reduxGender);
+			AsyncStorage.setItem('@measure', reduxMeasure);
+			console.log('action dispatched', reduxGender, reduxMeasure);
 
 		default:
 			return state;
 	}
 };
+
 
 export default defaultReducer;

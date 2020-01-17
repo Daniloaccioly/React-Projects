@@ -9,26 +9,10 @@ import {
 import { Button, Block, NavBar, Text, theme } from 'galio-framework';
 import Icon from './Icon';
 import argonTheme from '../constants/Theme';
-import Settings from '../components/Settings';
+import SettingsButton from './SettingsButton';
 
+const iPhoneX = () => Platform.OS === 'ios' && (height === 812 || width === 812 || height === 896 || width === 896);
 const { height, width } = Dimensions.get('window');
-const iPhoneX = () =>
-	Platform.OS === 'ios' &&
-	(height === 812 || width === 812 || height === 896 || width === 896);
-
-const SettingsButton = ({ isWhite, style, navigation }) => (
-	<TouchableOpacity
-		style={[styles.button, style]}
-		onPress={() => navigation.navigate('Settings')}
-	>
-		<Icon
-			family="MaterialCommunityIcons"
-			size={28}
-			name="cogs"
-			color={argonTheme.COLORS[isWhite ? 'WHITE' : 'ICON']}
-		/>
-	</TouchableOpacity>
-);
 
 class Header extends React.Component {
 	handleLeftPress = () => {
