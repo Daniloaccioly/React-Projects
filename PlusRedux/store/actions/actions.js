@@ -1,9 +1,10 @@
 /*
- * action types
+ * action types, identifiers
  */
 
 export const CHANGECOLOR = 'CHANGECOLOR';
 export const CHANGESETTINGS = 'CHANGESETTINGS';
+export const INITVALUE = 'INITVALUE';
 
 /*
  * action creators
@@ -15,10 +16,19 @@ export function ChangeColor() {
 		text
 	};
 }
-export function ChangeSettings(reduxGender, reduxMeasure) {
+
+export function ChangeSettings(GenderPL, MeasurePL) {
 	return {
 		type: CHANGESETTINGS,
-		reduxGender,
-		reduxMeasure
+		GenderPL,
+		MeasurePL,
 	};
 }
+
+export const InitValue = (genderv, measurev) =>{
+	return {
+		type: INITVALUE,
+		genderv,
+		measurev,
+	};
+};

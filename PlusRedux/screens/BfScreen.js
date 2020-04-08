@@ -1,71 +1,104 @@
-import React from 'react';
-import {
-	StyleSheet,
-	Dimensions,
-	ScrollView,
-	AsyncStorage,
-	alert
-} from 'react-native';
-import { Block, theme, Text, Input, Button } from 'galio-framework';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage, alert } from 'react-native';
+import { Block, theme, Text, Button } from 'galio-framework';
 import { argonTheme } from '../constants/index';
+import { InitValue } from '../store/actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import Measuresinput from '../components/MeasuresInput';
 
 const { width } = Dimensions.get('screen');
 
-class BfScreen extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			heightv: '177',
-			neckv: '40',
-			hipv: '100',
-			weistv: '90',
-			finalv: '0'
-		};
-	}
+const BfScreen = props => {
+	const code = useSelector(state => state.default.reduxCode);
+	const [isAddMode, setIsAddMode] = useState(false); // Make MeasuresInput visible/invisible
+	const [measureused, setmeasureused] = useState([]);
+	const [Height, setHeight] = useState();
+	const [visualHeight, setvisualHeight] = useState();
+	const [Neck, setNeck] = useState();
+	const [visualNeck, setvisualNeck] = useState();
+	const [Hip, setHip] = useState();
+	const [visualHip, setvisualHip] = useState();
+	const [Waist, setWaist] = useState();
+	const [visualWaist, setvisualWaist] = useState();
+	const [Final, setFinal] = useState();
 
-	async componentDidMount() {
-		try {
-			this.setState({
-				height: await AsyncStorage.getItem('@height'),
-				neck: await AsyncStorage.getItem('@neck'),
-				hip: await AsyncStorage.getItem('@hip'),
-				weist: await AsyncStorage.getItem('@weist'),
-				final: await AsyncStorage.getItem('@final')
-			});
 
-			if (this.state.height === null) {
-				this.storeData(
-					(arg1 = '@height'),
-					(arg2 = this.state.heightv),
-					(arg3 = 'height')
-				);
+	const addMeasuresHandler = (enteredNeck, enteredHip, enteredWaist, enteredHeightFeet, enteredHeightInches, Measure) =>
+	{
+		if (enteredHeightFeet !== '' && enteredHeightInches !== '' && enteredNeck !== '' && enteredWaist !== '' && enteredHip !== '')
+		{
+			setIsAddMode(false);
+			if (Measure == 'Imperial'){
+				valueNeck=  parseFloat(enteredNeck, 10);
+				valueHip=  parseFloat(enteredHip, 10);
+				valueWaist=  parseFloat( enteredWaist, 10);
+				valueHeightFeet=  parseFloat(enteredHeightFeet, 10);
+				valueHeightInches=  parseFloat(enteredHeightInches, 10);
+
+				setHeight((((valueHeightFeet*12) + valueHeightInches)*2.54).toFixed(0));
+				setNeck((valueNeck*2.54).toFixed(0));
+				setHip((valueHip*2.54).toFixed(0));
+				setWaist((valueWaist*2.54).toFixed(0));
+				getFinal(Height, Neck, Waist, Hip);
+
+				console.log(valueHeightFeet, valueHeightInches, Height);
+
+				AsyncStorage.setItem('@height', Height);
+				AsyncStorage.setItem('@neck', Neck);
+				AsyncStorage.setItem('@hip', Hip);
+				AsyncStorage.setItem('@weist', Waist);
+			}
+			if (Measure == 'Metric'){
+				setHeight(enteredHeightFeet + enteredHeightInches);
+				setNeck(enteredNeck);
+				setHip(enteredHip);
+				setWaist(enteredWaist);
+				getFinal(Height, enteredNeck, enteredWaist, enteredHip);
+				AsyncStorage.setItem('@height', enteredHeightFeet + enteredHeightInches);
+				AsyncStorage.setItem('@neck', enteredNeck);
+				AsyncStorage.setItem('@hip', enteredHip);
+				AsyncStorage.setItem('@weist', enteredWaist);
 			}	
 
-			if (this.state.neck === null) {
-				this.storeData(
-					(arg1 = '@neck'),
-					(arg2 = this.state.neckv),
-					(arg3 = 'neck')
-				);
+
+		} else
+			Alert.alert( 'Invalid entry Data', 'New  input cannot be empty');
+	};
+
+	async function getData() {
+		try {
+			heightv = await AsyncStorage.getItem('@height');
+			neckv = await AsyncStorage.getItem('@neck');
+			hipv = await AsyncStorage.getItem('@hip');
+			waistv = await AsyncStorage.getItem('@weist');
+			finalv = await AsyncStorage.getItem('@final');
+			measurev = await AsyncStorage.getItem('@measure');
+			genderv = await AsyncStorage.getItem('@gender');
+
+			if (heightv === null) {
+				storeData((arg1 = '@height'), (arg2 = ''), (arg3 = 'Height'));
 			}
 
-			if (this.state.hip === null) {
-				this.storeData(
-					(arg1 = '@hip'),
-					(arg2 = this.state.hipv),
-					(arg3 = 'hip')
-				);
+			if (neckv === null) {
+				storeData((arg1 = '@neck'), (arg2 = ''), (arg3 = 'Neck'));
 			}
 
-			if (this.state.neck === null) {
-				this.storeData(
-					(arg1 = '@weist'),
-					(arg2 = this.state.weistv),
-					(arg3 = 'weist')
-				);
+			if (hipv === null) {
+				storeData((arg1 = '@hip'), (arg2 = ''), (arg3 = 'Hip'));
+			}
+
+			if (waistv === null) {
+				storeData((arg1 = '@waist'), (arg2 = ''), (arg3 = 'Waist'));
 			}
 		} catch (error) {
 			console.log('BfScreen.js: Error retrieving data ' + error);
+		} finally {
+			setHeight(heightv);
+			setNeck(neckv);
+			setHip(hipv);
+			setWaist(waistv);
+			setFinal(finalv);
+			dispatch(InitValue(genderv, measurev));
 		}
 	}
 
@@ -80,35 +113,87 @@ class BfScreen extends React.Component {
 		}
 	};
 
-	final = async () => {
-		this.setState({
-			height: await AsyncStorage.getItem('@height'),
-			neck: await AsyncStorage.getItem('@neck'),
-			hip: await AsyncStorage.getItem('@hip'),
-			weist: await AsyncStorage.getItem('@weist')
-		});
-		if (this.state.neck !== null && this.state.height !== null && this.state.weist !== null) {
-			let heightn = parseFloat(this.state.height, 10)
-			let neckn = parseFloat(this.state.neck, 10)
-			let weistn = parseFloat(this.state.weist, 10)
-			let fin = 495 / (1.0324 - .19077 * Math.log10(weistn - neckn) + .15456 *Math.log10(heightn)) - 450
-			fin= fin.toFixed(1)
-			try {	
-				await AsyncStorage.setItem(
-					'@final',
-					fin.toString()
-				);
-				this.setState({
-					final: await AsyncStorage.getItem('@final')
-				});
-			} catch (error) {
-				console.log('BfScreen.js: Error retrieving data ' + error);
-			}
+	function converter(heightn, neckn, hipn, waistn, measures) {
+		if (measures == 'Metric') {
+			converted = heightn / 100;
+			setvisualHeight(converted.toFixed(2));
+			setvisualNeck(neckn.toFixed(0));
+			setvisualHip(hipn.toFixed(0));
+			setvisualWaist(waistn.toFixed(0));
+			setmeasureused([' meters', ' cms']);
+		}
+		if (measures == 'Imperial') {
+			converted = heightn * 0.3937007874; //centimeters to inches
+			inches = converted % 12
+			feet = (converted - inches)/12
+			set = (feet.toFixed(0) +'\' ' + inches.toFixed(0) +"\''")
+			setvisualHeight(set);
+			convertedn = neckn * 0.3937007874;
+			setvisualNeck(convertedn.toFixed(0));
+			convertedh = hipn * 0.3937007874;
+			setvisualHip(convertedh.toFixed(0));
+			convertedw = waistn * 0.3937007874;
+			setvisualWaist(convertedw.toFixed(0));
+			setmeasureused(['', ' inches']);
+		}
+	}
+
+	useEffect(() => {
+		getData();
+	}, []);
+
+	useEffect(() => {
+		getFinal(Height, Neck, Waist, Hip);
+	}, [code, isAddMode]);
+
+	const dispatch = useDispatch();
+
+	const getFinal = (Height, Neck, Waist, Hip) => {
+		let heightn = parseFloat(Height, 10);
+		let neckn = parseFloat(Neck, 10);
+		let waistn = parseFloat(Waist, 10);
+		let hipn = parseFloat(Hip, 10);
+		let fin = 0;
+		switch (code) {
+
+			case 0:
+				console.log('Female Imperial');
+				converter(heightn, neckn, hipn, waistn, (measures = 'Imperial'));
+				fin = 495 /(1.29579 - 0.35004 * Math.log10(waistn + hipn - neckn) + 0.221 * Math.log10(heightn)) - 450;
+				fin = fin.toFixed(1);
+				break;
+			case 1:
+				console.log('Male Imperial');
+				converter(heightn, neckn, hipn, waistn, (measures = 'Imperial'));
+				fin = 495 / (1.0324 - 0.19077 * Math.log10(waistn - neckn) + 0.15456 * Math.log10(heightn)) - 450;
+				fin = fin.toFixed(1);
+				break;
+			case 10:
+				console.log('Female Metric');
+				converter(heightn, neckn, hipn, waistn, (measures = 'Metric'));
+				fin = 495 /(1.29579 - 0.35004 * Math.log10(waistn + hipn - neckn) + 0.221 * Math.log10(heightn)) - 450;
+				fin = fin.toFixed(1);
+				break;
+			case 11:
+				console.log('Male Metric');
+				converter(heightn, neckn, hipn, waistn, (measures = 'Metric'));
+				fin = 495 / (1.0324 - 0.19077 * Math.log10(waistn - neckn) + 0.15456 * Math.log10(heightn)) - 450;
+				fin = fin.toFixed(1);
+				break;
+		}
+
+		try {
+			AsyncStorage.setItem('@final', fin.toString());
+		} catch (error) {
+			console.log('Action GETCALC: Error retrieving data ' + error);
+		} finally {
+			setFinal(fin);
+			console.log('Final do getFinal', code);
 		}
 	};
 
-	renderArticles = () => {
-		return (
+	return (
+		<Block flex center style={styles.home}>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={styles.articles}
@@ -116,39 +201,39 @@ class BfScreen extends React.Component {
 				<Block flex>
 					<Block style={styles.input}>
 						<Text style={styles.text}>Height: </Text>
-						<Input
-							color="black"
-							placeholder={this.state.height}
-							placeholderTextColor={'#8898AA'}
+						<Text
+							style={styles.inputvalues}
 							keyboardType="number-pad"
-						/>
+						>
+							{visualHeight + measureused[0]}
+						</Text>
 					</Block>
 					<Block style={styles.input}>
 						<Text style={styles.text}>Neck: </Text>
-						<Input
-							color="black"
-							placeholder={this.state.neck}
-							placeholderTextColor={'#8898AA'}
+						<Text
+							style={styles.inputvalues}
 							keyboardType="number-pad"
-						/>
+						>
+							{visualNeck + measureused[1]}
+						</Text>
 					</Block>
 					<Block style={styles.input}>
 						<Text style={styles.text}>Hip: </Text>
-						<Input
-							color="black"
-							placeholder={this.state.hip}
-							placeholderTextColor={'#8898AA'}
+						<Text
+							style={styles.inputvalues}
 							keyboardType="number-pad"
-						/>
+						>
+							{visualHip + measureused[1]}
+						</Text>
 					</Block>
 					<Block style={styles.input}>
-						<Text style={styles.text}>Weist: </Text>
-						<Input
-							color="black"
-							placeholder={this.state.weist}
-							placeholderTextColor={'#8898AA'}
+						<Text style={styles.text}>Waist: </Text>
+						<Text
+							style={styles.inputvalues}
 							keyboardType="number-pad"
-						/>
+						>
+							{visualWaist + measureused[1]}
+						</Text>
 					</Block>
 					<Block style={styles.input}>
 						<Text
@@ -166,36 +251,35 @@ class BfScreen extends React.Component {
 								...styles.text,
 								...{
 									fontSize: 28,
+									fontFamily:
+										argonTheme.FONTS
+											.SECONDARY,
 									textAlign: 'left'
 								}
 							}}
 						>
-							{this.state.final}%
+							{Final}%
 						</Text>
 					</Block>
 				</Block>
 				<Block style={styles.text}>
 					<Button
-						style={styles.input}
+						style={styles.button}
 						round
 						size="small"
-						onPress={this.final}
+						onPress={() => setIsAddMode(true)}
 					>
-						Calc
+						Update
 					</Button>
+					<Measuresinput
+						visible={isAddMode}
+						onAddMeasures={addMeasuresHandler}
+					/>
 				</Block>
 			</ScrollView>
-		);
-	};
-
-	render() {
-		return (
-			<Block flex center style={styles.home}>
-				{this.renderArticles()}
-			</Block>
-		);
-	}
-}
+		</Block>
+	);
+};
 
 const styles = StyleSheet.create({
 	home: {
@@ -209,13 +293,23 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignContent: 'space-around',
 		padding: 1
-		//borderColor:'black',
-		//borderWidth:2
+	},
+	button: {
+		flexDirection: 'row',
+		alignContent: 'space-around',
+		padding: 1,
+		width: '35%'
+	},
+	inputvalues: {
+		fontSize: 24,
+		fontFamily: argonTheme.FONTS.SECONDARY,
+		width: '50%'
 	},
 	text: {
-		//h1:true,
+		flexDirection: 'row',
 		flex: 1,
 		fontSize: 24,
+		fontFamily: argonTheme.FONTS.PRIMARY,
 		alignContent: 'flex-end',
 		textAlign: 'right',
 		alignSelf: 'center',

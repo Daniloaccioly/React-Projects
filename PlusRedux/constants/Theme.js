@@ -30,5 +30,9 @@ export default {
         BLACK: '#000000',
         BABYBLUE:'#69EDDE', //Lighter: #DAFBF7
         BABYPINK: '#F28DB3', //Lighter: #F9C6D9
+      },
+      FONTS:{
+        PRIMARY:'open-sans-bold',
+        SECONDARY:'open-sans',
       }
     };

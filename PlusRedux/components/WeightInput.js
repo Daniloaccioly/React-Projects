@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
-import { StyleSheet, Modal, Dimensions } from 'react-native';
+import { StyleSheet, Modal, TextInput } from 'react-native';
 import { Block, Text, Input, Button } from 'galio-framework';
-const { width } = Dimensions.get('screen');
+import argonTheme from '../constants/Theme';
 
 const WeightInput = props => {
 	
 	const [enteredWeight, setEnteredWeight] = useState('');
 
 	const WeightInputHandler = enteredText => {
-		setEnteredWeight(enteredText);
+		let formated = enteredText.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') ;
+		setEnteredWeight(formated);
 	};
 
 	return (
 		<Modal transparent={true} style={styles.modalStyling} visible={props.visible} animationType="slide">
 			<Block style={styles.inputContainer}>
-				<Input
+				<TextInput
 					placeholder="Your Current Weight"
 					style={styles.input}
+					placeholdertextcolor= {argonTheme.COLORS.BLACK}
 					onChangeText={WeightInputHandler}
 					value={enteredWeight}
 					keyboardType="number-pad"
+					onSubmitEditing={props.onAddWeight.bind(this, enteredWeight)}
 				/>
 				<Button 
 					style={styles.button} 
@@ -45,14 +48,16 @@ const styles = StyleSheet.create({
 		borderRadius: 45,
 		shadowRadius: 25,
 		margin: 30,
-		marginTop: 100,
+		marginTop: 50,
 		borderColor: 'black',
 		borderWidth: 5,
-		backgroundColor:'white',
+		backgroundColor: argonTheme.COLORS.WHITE,
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
 	input: {
+		fontSize: 28,
+		height: 55,
 		width: '80%',
 		backgroundColor: 'white',
 		borderColor: 'black',

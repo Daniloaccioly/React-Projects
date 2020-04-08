@@ -17,8 +17,7 @@ const SettingsButton = ({ isWhite, style }) =>  {
 	const addSettingsHandler = (Gender, Measurement) => {
 		//onPress of Save and Exit
 		setSettingsMode(false);
-		dispatch(ChangeSettings((reduxGender = Gender, reduxMeasure = Measurement)));
-		console.log(Measurement);
+		dispatch(ChangeSettings(GenderPL = Gender, MeasurePL = Measurement))
 	};
 
 	return (

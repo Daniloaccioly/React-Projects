@@ -45,7 +45,6 @@ const Settings = props => {
 		} finally {
 			switch (vmeasure) {
 				case null:
-					console.log('aqui');
 					setMeasurement('Metric');
 					setSwitchMeasurement(false);
 					break;
@@ -94,6 +93,7 @@ const Settings = props => {
 		setSwitchMeasurement(newvalue);
 		getMeasurement(newvalue);
 	}
+
 	return (
 		<Modal
 			transparent={true}
