@@ -252,8 +252,7 @@ const BfScreen = props => {
 								...{
 									fontSize: 28,
 									fontFamily:
-										argonTheme.FONTS
-											.SECONDARY,
+										argonTheme.FONTS.SECONDARY,
 									textAlign: 'left'
 								}
 							}}

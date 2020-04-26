@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage, Alert } from 'react-native';
-import { Block, theme, Text, Input, Button } from 'galio-framework';
+import { Block, Text, Button } from 'galio-framework';
 import { argonTheme } from '../constants/index';
 import Weightinput from '../components/WeightInput'; // export default without braces {}, export normal with braces {}
+import WeightChart from '../components/Chart';
 
 const { width } = Dimensions.get('screen');
 
@@ -35,6 +36,7 @@ const Weight = props => {
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>
+			<WeightChart/>
 			<Block style={styles.input}>
 				<Text style={styles.text}>Weight: </Text>
 				<Text

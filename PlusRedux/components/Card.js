@@ -47,8 +47,7 @@ class Card extends React.Component {
 					</Block>
 				</TouchableWithoutFeedback>
 				<TouchableWithoutFeedback
-					onPress={() => navigation.navigate('Pro')}
-				>
+					onPress={() => navigation.navigate('Pro')}>
 					<Block
 						flex
 						space="between"
@@ -62,8 +61,7 @@ class Card extends React.Component {
 							muted={!ctaColor}
 							color={
 								ctaColor ||
-								argonTheme.COLORS.ACTIVE
-							}
+								argonTheme.COLORS.ACTIVE}
 							bold
 						>
 							{item.cta}

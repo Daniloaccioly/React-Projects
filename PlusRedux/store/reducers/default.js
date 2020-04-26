@@ -11,7 +11,8 @@ const initialState = {
 const defaultReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case CHANGECOLOR:
-			 return text
+			 return {...state,
+				initialColor: text}
 
 		//female imperial 0
 		//female metric 10

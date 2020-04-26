@@ -58,6 +58,14 @@ class Header extends React.Component {
 						isWhite={white}
 					/>
 				];
+				case 'HiitScreen':
+					return [
+						<SettingsButton
+							key="basket-hiitscreen"
+							navigation={navigation}
+							isWhite={white}
+						/>
+					];
 			default:
 				break;
 		}
@@ -150,6 +158,8 @@ class Header extends React.Component {
 		const noShadow = [
 			'BfScreen',
 			'Weight',
+			'FirstScreen',
+			'HiitScreen',
 		].includes(routeName);
 		const headerStyles = [
 			!noShadow ? styles.shadow : null,

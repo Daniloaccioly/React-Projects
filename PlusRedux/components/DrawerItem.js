@@ -18,7 +18,7 @@ class DrawerItem extends React.Component {
 						size={20}
 						color={
 							focused
-								? 'white'
+								? argonTheme.COLORS.ACTIVE
 								: argonTheme.COLORS.ICON
 						}
 					/>
@@ -31,7 +31,7 @@ class DrawerItem extends React.Component {
 						size={20}
 						color={
 							focused
-								? 'white'
+								? argonTheme.COLORS.ACTIVE
 								: argonTheme.COLORS.ICON
 						}
 					/>
@@ -44,7 +44,7 @@ class DrawerItem extends React.Component {
 						size={20}
 						color={
 							focused
-								? 'white'
+								? argonTheme.COLORS.ACTIVE
 								: argonTheme.COLORS.ICON
 						}
 					/>
@@ -69,10 +69,10 @@ class DrawerItem extends React.Component {
 				</Block>
 				<Block row center flex={0.9}>
 					<Text
-						size={15}
+						size={focused ? 18 : 15}
 						bold={focused ? true : false}
 						color={
-							focused ? 'white' : 'rgba(0,0,0,0.5)'
+							focused ? argonTheme.COLORS.ACTIVE : 'rgba(0,0,0,0.5)'
 						}
 					>
 						{title}

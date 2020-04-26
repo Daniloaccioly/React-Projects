@@ -6,6 +6,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 
 // screens
 import FirstScreen from '../screens/FirstScreen';
+import HiitScreen from '../screens/HiitScreen';
 import Weight from '../screens/Weight';
 import BfScreen from '../screens/BfScreen';
 
@@ -18,7 +19,7 @@ import Header, {navigationOptions} from '../components/Header';
 
 const transitionConfig = (transitionProps, prevTransitionProps) => ({
 	transitionSpec: {
-		duration: 400,
+		duration: 500,
 		easing: Easing.out(Easing.poly(4)),
 		timing: Animated.timing
 	},
@@ -126,31 +127,37 @@ const FirstStack = createStackNavigator(
 				)
 			})
 		},
+		HiitScreen: {
+			screen: HiitScreen,
+			navigationOptions: ({ navigation }) => ({
+
+		})
+		}
 	},
 	{
 		cardStyle: {
-			backgroundColor: '#F8F9FE'
+			backgroundColor: '#F8F9FE',
+			opacity: 1,
 		},
 		transitionConfig
 	}
 );
 
-// divideru se baga ca si cum ar fi un ecrna dar nu-i nimic duh
 const AppStack = createDrawerNavigator(
 	{
-		Weight: {
-			screen: WeightStack,
-			navigationOptions: navOpt => ({
-				drawerLabel: ({ focused }) => (
-					<DrawerItem focused={focused} title="Weight" />
-				)
-			})
-		},
 		FirstScreen: {
 			screen: FirstStack,
 			navigationOptions: navOpt => ({
 				drawerLabel: ({ focused }) => (
 					<DrawerItem focused={focused} title="FirstScreen" />
+				)
+			})
+		},
+		Weight: {
+			screen: WeightStack,
+			navigationOptions: navOpt => ({
+				drawerLabel: ({ focused }) => (
+					<DrawerItem focused={focused} title="Weight" />
 				)
 			})
 		},
