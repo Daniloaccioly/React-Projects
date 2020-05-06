@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Button, FlatList } from 'react-native';
-import { TouchableOpacity, Text, Platform, TouchableNativeFeedback } from 'react-native';
-import { argonTheme } from '../constants';
+import React from 'react';
+import { FlatList } from 'react-native';
+import { TouchableOpacity, Platform, TouchableNativeFeedback } from 'react-native';
 import GridTile from '../components/GridTile';
 import { MODEL } from '../data/dummy-data';
+import * as S from '../styles';
 
 const FirstScreen = props => {
 
@@ -32,53 +32,15 @@ const FirstScreen = props => {
 
 	
 	return (
-		/* Exemplo de como mesclar  n styles */
-		<View
-			style={{
-				...styles.container,
-				...{
-					flexDirection: 'row'
-				}
-			}}>
+		<S.FirstView>
 			<FlatList
 				keyExtractor={(item, index) => item.id}
 				data={MODEL}
 				renderItem={renderGridItem}
 				numColumns={1}
 			/>
-		</View>
+		</S.FirstView>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		borderRightWidth: 1,
-		paddingVertical: 10,
-		paddingHorizontal: 10,
-		flex: 1,
-		alignItems: 'stretch',
-		justifyContent: 'center'
-	},
-	containergrid: {
-		borderWidth: 3,
-		borderBottomWidth: 0,
-		borderColor: argonTheme.COLORS.PRIMARY,
-		padding: 5,
-		height: 90,
-		flexDirection: 'row',
-		backgroundColor: argonTheme.COLORS.BACKGROUND,
-		alignItems: 'stretch',
-		justifyContent: 'center'
-	},
-
-	title: {
-		flex: 4,
-		fontSize: 22,
-		color: 'white',
-		textAlign: 'left',
-		borderColor:  'white',
-		color:  'black',
-	}
-});
 
 export default FirstScreen;

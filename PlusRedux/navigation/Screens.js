@@ -15,7 +15,7 @@ import Menu from './Menu';
 import DrawerItem from '../components/DrawerItem';
 
 // header for screens
-import Header, {navigationOptions} from '../components/Header';
+import Header from '../components/Header';
 
 const transitionConfig = (transitionProps, prevTransitionProps) => ({
 	transitionSpec: {
@@ -97,7 +97,7 @@ const BfStack = createStackNavigator(
 					<Header
 						search
 						options
-						title="BfScreen"
+						title="Body Fat Percentage"
 						navigation={navigation}
 					/>
 				)
@@ -112,6 +112,7 @@ const BfStack = createStackNavigator(
 	}
 );
 
+
 const FirstStack = createStackNavigator(
 	{
 		FirstScreen: {
@@ -119,9 +120,7 @@ const FirstStack = createStackNavigator(
 			navigationOptions: ({ navigation }) => ({
 				header: (
 					<Header
-						search
-						options
-						title="FirstScreen"
+						title="HIIT Exercises"
 						navigation={navigation}
 					/>
 				)
@@ -129,10 +128,8 @@ const FirstStack = createStackNavigator(
 		},
 		HiitScreen: {
 			screen: HiitScreen,
-			navigationOptions: ({ navigation }) => ({
-
-		})
-		}
+			navigationOptions: ({ navigation }) => ({})
+		},
 	},
 	{
 		cardStyle: {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, FlatList, TouchableOpacity } from 'react-native';
-import { argonTheme } from '../constants/index';
+import { LightTheme } from '../constants/index';
 import { MODEL } from '../data/dummy-data';
 const { height } = Dimensions.get('screen');
 
@@ -24,7 +24,7 @@ const HiitScreen = props => {
 			{itemData.item !== 'AddButtom' ? (
 			<Text	
 				style={{ 
-					backgroundColor: argonTheme.COLORS.BACKGROUND,
+					backgroundColor: LightTheme.COLORS.BACKGROUND,
 					flex: 1, 
 					fontSize: 22, 
 					textAlign: 'center', 
@@ -39,7 +39,7 @@ const HiitScreen = props => {
 					borderRadius: 90,
 					borderColor: 'black',
 					borderWidth: 4,
-					backgroundColor: argonTheme.COLORS.PRIMARY,
+					backgroundColor: LightTheme.COLORS.PRIMARY,
 					}}>
 					<Text
 						style={{ 
@@ -59,26 +59,39 @@ const HiitScreen = props => {
 		<View
 			style={styles.container}
 		>
-                  <Text  style={{
-				...styles.title,
-				...{
-					textAlign: 'left',
-					fontFamily: argonTheme.FONTS.PRIMARY,
-					fontSize: 32,
-					color: selectedTraining.color,
-				}
-			}}>
-				{selectedTraining.title} 
-			</Text>
+			<View style={{ flexDirection: 'row', }}>
+                 		<Text  style={{
+					...styles.title,
+					...{
+						textAlign: 'left',
+						fontFamily: LightTheme.FONTS.PRIMARY,
+						fontSize: 32,
+						color: selectedTraining.color,
+					}
+				}}>
+					{selectedTraining.title} 
+				</Text>
+				<TouchableOpacity style={{ flex: 0.5, backgroundColor: 'red', borderRadius: 25,}}>
+					<Text style={{
+						...styles.title,
+						...{
+							color: LightTheme.COLORS.BACKGROUND,
+							fontFamily: LightTheme.FONTS.PRIMARY,
+							fontSize: 28,
+							}
+						}}>
+						Start </Text>
+				</TouchableOpacity>
+			</View>
 			<Text style={{
 				...styles.title,
 				...{
-					textAlign:'right',
+					textAlign:'left',
 					borderBottomWidth: 5,
 					borderColor: selectedTraining.color,
 				}
 			}}>
-				 Tabatas:  </Text>
+				 Tabatas:  1</Text>
 			<View style={{ flex: 3, flexDirection: 'row', }}>
 				<View style={{ flex: 1  }}>
 					<Text style={styles.title}> Exercise </Text>
@@ -91,7 +104,7 @@ const HiitScreen = props => {
 					<Text style={styles.title}> {selectedTraining.Rest} </Text>
 				</View>
 			</View>
-			<View style={{ flex: 10, backgroundColor: argonTheme.COLORS.BACKGROUND, }}>
+			<View style={{ flex: 10, backgroundColor: LightTheme.COLORS.BACKGROUND, }}>
 				<TouchableOpacity
 					onPress={() => setOpen(prev => !prev)}
 					style={{ }}>
@@ -100,7 +113,7 @@ const HiitScreen = props => {
 							height: 50, 
 							fontSize: 22,
 							textAlign: 'center',
-							backgroundColor:argonTheme.COLORS.BACKGROUND, }}>
+							backgroundColor:LightTheme.COLORS.BACKGROUND, }}>
 						Open Accordion
 					</Text>
 			 </TouchableOpacity>
@@ -122,14 +135,14 @@ const styles = StyleSheet.create({
 		borderRightWidth: 1,
 		paddingVertical: 10,
 		paddingHorizontal: 10,
-		backgroundColor: argonTheme.COLORS.BACKGROUND,
+		backgroundColor: LightTheme.COLORS.BACKGROUND,
 		alignItems: 'stretch',
 		justifyContent: 'center'
 	},
 	title: {
 		flex: 1,
 		fontSize: 22,
-		fontFamily: argonTheme.FONTS.SECONDARY,
+		fontFamily: LightTheme.FONTS.SECONDARY,
 		color: 'white',
 		textAlign: 'center',
 		borderColor:  'white',

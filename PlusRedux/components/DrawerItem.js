@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
 import Icon from './Icon';
-import argonTheme from '../constants/Theme';
+import LightTheme from '../constants/Light';
 
 class DrawerItem extends React.Component {
 	renderIcon = () => {
@@ -18,8 +18,8 @@ class DrawerItem extends React.Component {
 						size={20}
 						color={
 							focused
-								? argonTheme.COLORS.ACTIVE
-								: argonTheme.COLORS.ICON
+								? LightTheme.COLORS.ACTIVE
+								: LightTheme.COLORS.ICON
 						}
 					/>
 				);
@@ -31,8 +31,8 @@ class DrawerItem extends React.Component {
 						size={20}
 						color={
 							focused
-								? argonTheme.COLORS.ACTIVE
-								: argonTheme.COLORS.ICON
+								? LightTheme.COLORS.ACTIVE
+								: LightTheme.COLORS.ICON
 						}
 					/>
 				);
@@ -44,8 +44,8 @@ class DrawerItem extends React.Component {
 						size={20}
 						color={
 							focused
-								? argonTheme.COLORS.ACTIVE
-								: argonTheme.COLORS.ICON
+								? LightTheme.COLORS.ACTIVE
+								: LightTheme.COLORS.ICON
 						}
 					/>
 				);
@@ -72,7 +72,7 @@ class DrawerItem extends React.Component {
 						size={focused ? 18 : 15}
 						bold={focused ? true : false}
 						color={
-							focused ? argonTheme.COLORS.ACTIVE : 'rgba(0,0,0,0.5)'
+							focused ? LightTheme.COLORS.ACTIVE : 'rgba(0,0,0,0.5)'
 						}
 					>
 						{title}
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 14
 	},
 	activeStyle: {
-		backgroundColor: argonTheme.COLORS.ACTIVE,
+		backgroundColor: LightTheme.COLORS.ACTIVE,
 		borderRadius: 4
 	},
 	shadow: {

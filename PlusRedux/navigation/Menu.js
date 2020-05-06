@@ -1,8 +1,7 @@
 import React from 'react';
 import {  DrawerNavigatorItems } from 'react-navigation-drawer';
-import { ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
+import { ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Block, theme, Text } from 'galio-framework';
-
 
 const { width } = Dimensions.get('screen');
 

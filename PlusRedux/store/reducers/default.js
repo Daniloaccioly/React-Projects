@@ -1,10 +1,11 @@
-import {CHANGECOLOR, CHANGESETTINGS, INITVALUE} from '../actions/actions';
+import {CHANGETHEME, CHANGECOLOR, CHANGESETTINGS, INITVALUE} from '../actions/actions';
 import { AsyncStorage } from 'react-native';
 
 const initialState = {
 	initialColor: 'lightgreen',	
-	reduxMeasure: '',
-	reduxGender: '',
+	Theme: 'Light',
+	reduxMeasure: 'false',
+	reduxGender: 'false',
 	reduxCode: 0,
 }
 
@@ -14,41 +15,46 @@ const defaultReducer = (state = initialState, action) => {
 			 return {...state,
 				initialColor: text}
 
+		case CHANGETHEME:
+			 return {...state,
+				Theme: text}
+
 		//female imperial 0
 		//female metric 10
 		//male imperial 1
 		//male metric 11
 		case CHANGESETTINGS:
 			let code = 0;
-			if (GenderPL == 'Male'){
+			if (GenderPL == false){
 				code = code + 1;
-				if (MeasurePL == 'Metric'){
+				if (MeasurePL == false){
 					code = code + 10;
 				}
-			} if (GenderPL == 'Female'){
-				if (MeasurePL == 'Metric'){
+			} if (GenderPL == true){
+				if (MeasurePL == false){
 					code = code + 10;
 				}
 			}
-			AsyncStorage.setItem('@gender', GenderPL);
-			AsyncStorage.setItem('@measure', MeasurePL);
-			console.log('CHANGESETTINGS: ', GenderPL, MeasurePL, code);
+			AsyncStorage.setItem('@gender', JSON.stringify(GenderPL));
+			AsyncStorage.setItem('@measure', JSON.stringify(MeasurePL));
+			AsyncStorage.setItem('@theme', JSON.stringify(ThemePL));
+			console.log('CHANGESETTINGS: ', code);
 				return {
 					...state,
-					reduxMeasure: MeasurePL,
-					reduxGender: GenderPL,
+					reduxMeasure: JSON.stringify( MeasurePL),
+					reduxGender: JSON.stringify(GenderPL),
 					reduxCode: code,
 				}
 
 		case INITVALUE:
 			let cod = 0;
-			if (genderv == 'Male'){
+			if (genderv == 'false'){
 				cod = cod + 1;
-				if (measurev == 'Metric'){
+				if (measurev == 'false'){
 					cod = cod + 10;
 				}
-			} if (genderv == 'Female'){
-				if (measurev == 'Metric'){
+			} if (genderv == 'true'){
+				if (measurev == 'false'){
 					cod = cod + 10;
 				}
 			}

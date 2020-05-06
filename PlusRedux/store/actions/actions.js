@@ -3,6 +3,7 @@
  */
 
 export const CHANGECOLOR = 'CHANGECOLOR';
+export const CHANGETHEME = 'CHANGETHEME';
 export const CHANGESETTINGS = 'CHANGESETTINGS';
 export const INITVALUE = 'INITVALUE';
 
@@ -17,11 +18,19 @@ export function ChangeColor() {
 	};
 }
 
-export function ChangeSettings(GenderPL, MeasurePL) {
+export function ChangeTheme() {
+	return {
+		type: CHANGETHEME,
+		text
+	};
+}
+
+export function ChangeSettings(GenderPL, MeasurePL, ThemePL) {
 	return {
 		type: CHANGESETTINGS,
 		GenderPL,
 		MeasurePL,
+		ThemePL,
 	};
 }
 

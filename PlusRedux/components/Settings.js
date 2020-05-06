@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Modal, AsyncStorage, Switch } from 'react-native';
-import { Block, Text, Button } from 'galio-framework';
-import argonTheme from '../constants/Theme';
+import { Block } from 'galio-framework';
+import { withTheme } from 'styled-components';
+import * as S from '../styles';
 
 const Settings = props => {
+	//Gender
 	const [SwitchGender, setSwitchGender] = useState();
-	const [Gender, setGender] = useState();
-	const [thumbColor, setThumbColor] = useState();
+	//Measures
 	const [SwitchMeasurement, setSwitchMeasurement] = useState();
-	const [Measurement, setMeasurement] = useState();
+	//Theme
+	const [SwitchTheme, setSwitchTheme] = useState();
 
 	async function getGenderValue() {
 		try {
@@ -18,17 +20,12 @@ const Settings = props => {
 		} finally {
 			switch (vgender) {
 				case null:
-					setGender('Male');
 					setSwitchGender(false);
 					break;
-				case 'Male':
-					setGender('Male');
+				case 'false':
 					setSwitchGender(false);
-					setThumbColor('#DAFBF7');
 					break;
-				case 'Female':
-					setGender('Female');
-					setThumbColor('#F9C6D9');
+				case 'true':
 					setSwitchGender(true);
 					break;
 				default:
@@ -45,16 +42,35 @@ const Settings = props => {
 		} finally {
 			switch (vmeasure) {
 				case null:
-					setMeasurement('Metric');
 					setSwitchMeasurement(false);
 					break;
-				case 'Metric':
-					setMeasurement('Metric');
+				case 'false':
 					setSwitchMeasurement(false);
 					break;
-				case 'Imperial':
-					setMeasurement('Imperial');
+				case 'true':
 					setSwitchMeasurement(true);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	async function getThemeValue() {
+		try {
+			vtheme = await AsyncStorage.getItem('@theme');
+		} catch {
+			Console.log('getSettingsValues Error');
+		} finally {
+			switch (vtheme) {
+				case null:
+					setSwitchTheme(false);
+					break;
+				case 'false':
+					setSwitchTheme(false);
+					break;
+				case 'true':
+					setSwitchTheme(true);
 					break;
 				default:
 					break;
@@ -65,61 +81,31 @@ const Settings = props => {
 	useEffect(() => {
 		getMeasureValue();
 		getGenderValue();
+		getThemeValue();
 	}, []); //array de variavéis que quando alteradas rodam o useEffect novamente
-
-	function getGender(SwitchGender) {
-		let value = 'none';
-		if (SwitchGender === true) {
-			setGender('Female');
-			setThumbColor('#F9C6D9');
-		}
-		if (SwitchGender === false) {
-			setGender('Male');
-			setThumbColor('#DAFBF7');
-		}
-	}
-
-	function changeGender(newvalue) {
-		setSwitchGender(newvalue);
-		getGender(newvalue);
-	}
-
-	function getMeasurement(SwitchMeasurement) {
-		if (SwitchMeasurement === true) setMeasurement('Imperial');
-		if (SwitchMeasurement === false) setMeasurement('Metric');
-	}
-
-	function changeMeasurement(newvalue) {
-		setSwitchMeasurement(newvalue);
-		getMeasurement(newvalue);
-	}
 
 	return (
 		<Modal
 			transparent={true}
-			style={styles.modalStyling}
 			visible={props.visible}
 			animationType="slide"
 		>
-			<Block style={styles.settingsContainer}>
+			<S.MainContainer>
 				<Block style={styles.switchContainer}>
 					<Switch
-						thumbColor={thumbColor}
+						thumbColor=	{SwitchGender ? '#F9C6D9' : '#DAFBF7' }
 						trackColor={{
-							true: argonTheme.COLORS.BABYPINK,
-							false: argonTheme.COLORS.BABYBLUE
+							true: props.theme.COLORS.BABYPINK,
+							false: props.theme.COLORS.BABYBLUE
 						}}
 						style={styles.switch}
 						value={SwitchGender}
-						onValueChange={newvalue =>
-							changeGender(newvalue)
-						}
+						onValueChange={value => setSwitchGender(value)}
 					/>
-					<Text style={styles.text} color="black">
-						{Gender}
-					</Text>
+					<S.UpdateTitle style={styles.text}>
+						{SwitchGender ? 'Female' : 'Male' }
+					</S.UpdateTitle>
 				</Block>
-
 				<Block style={styles.switchContainer}>
 					<Switch
 						thumbColor={'#3366CC'}
@@ -129,27 +115,40 @@ const Settings = props => {
 						}}
 						style={styles.switch}
 						value={SwitchMeasurement}
-						onValueChange={newvalue =>
-							changeMeasurement(newvalue)
-						}
+						onValueChange={value => setSwitchMeasurement(value)}
 					/>
-					<Text style={styles.text} color="black">
-						{Measurement}
-					</Text>
+					<S.UpdateTitle style={styles.text}>
+					{SwitchMeasurement ? 'Imperial' : 'Metric' }
+					</S.UpdateTitle>
 				</Block>
-				<Button
-					style={styles.button}
+				<Block style={styles.switchContainer}>
+					<Switch
+						thumbColor={'#555'}
+						trackColor={{
+							true: '#ddd',
+							false: '#000'
+						}}
+						style={styles.switch}
+						value={SwitchTheme}
+						onValueChange={value => setSwitchTheme(value)}
+					/>
+					<S.UpdateTitle style={styles.text}>
+						{SwitchTheme ? 'Dark' : 'Light'}
+					</S.UpdateTitle>
+				</Block>
+				<S.UpdateButton style = {{marginTop: '15%'}}
 					onPress={props.onSettings.bind(
 						this,
-						Gender,
-						Measurement
+						SwitchGender,
+						SwitchMeasurement,
+						SwitchTheme
 					)}
 				>
-					<Text h5 color="white">
+					<S.UpdateTitle>
 						Save and Exit
-					</Text>
-				</Button>
-			</Block>
+					</S.UpdateTitle>
+				</S.UpdateButton>
+			</S.MainContainer>
 		</Modal>
 	);
 };
@@ -157,50 +156,22 @@ const Settings = props => {
 const styles = StyleSheet.create({
 	modalStyling: {
 		flex: 1,
-		backgroundColor: 'gray',
-		borderColor: 'black',
 		borderWidth: 8
-	},
-	//principal
-	settingsContainer: {
-		flex: 1,
-		flexDirection: 'column',
-		borderRadius: 25,
-		shadowRadius: 25,
-		margin: 20,
-		marginTop: 50,
-		marginBottom: 140,
-		borderColor: 'black',
-		borderWidth: 4,
-		backgroundColor: 'white',
-		justifyContent: 'center',
-		alignItems: 'center'
 	},
 	switchContainer: {
 		height: 60,
 		flexDirection: 'row',
 		justifyContent: 'center'
 	},
-	button: {
-		fontSize: 28,
-		borderRadius: 25,
-		width: '65%',
-		alignContent: 'space-around',
-		marginTop: 200,
-		padding: 25
-	},
 	switch: {
 		flex: 1
 	},
 	text: {
-		flex: 1,
 		fontSize: 24,
-		color: 'black',
 		alignContent: 'flex-start',
 		textAlign: 'left',
-		alignSelf: 'center',
-		padding: 1
+		paddingLeft: 10,
 	}
 });
 
-export default Settings;
+export default withTheme(Settings);

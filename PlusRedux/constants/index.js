@@ -1,5 +1,7 @@
-import argonTheme from './Theme';
+import LightTheme from './Light';
+import DarkTheme from './Dark';
 
 export {
-  argonTheme,
+  LightTheme,
+  DarkTheme
 };

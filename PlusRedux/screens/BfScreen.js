@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage, alert } from 'react-native';
-import { Block, theme, Text, Button } from 'galio-framework';
-import { argonTheme } from '../constants/index';
+import { Block, theme } from 'galio-framework';
 import { InitValue } from '../store/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Measuresinput from '../components/MeasuresInput';
+import * as S from '../styles';
 
 const { width } = Dimensions.get('screen');
 
@@ -28,7 +28,7 @@ const BfScreen = props => {
 		if (enteredHeightFeet !== '' && enteredHeightInches !== '' && enteredNeck !== '' && enteredWaist !== '' && enteredHip !== '')
 		{
 			setIsAddMode(false);
-			if (Measure == 'Imperial'){
+			if (Measure == 'true'){
 				valueNeck=  parseFloat(enteredNeck, 10);
 				valueHip=  parseFloat(enteredHip, 10);
 				valueWaist=  parseFloat( enteredWaist, 10);
@@ -48,7 +48,7 @@ const BfScreen = props => {
 				AsyncStorage.setItem('@hip', Hip);
 				AsyncStorage.setItem('@weist', Waist);
 			}
-			if (Measure == 'Metric'){
+			if (Measure == 'false'){
 				setHeight(enteredHeightFeet + enteredHeightInches);
 				setNeck(enteredNeck);
 				setHip(enteredHip);
@@ -62,7 +62,7 @@ const BfScreen = props => {
 
 
 		} else
-			Alert.alert( 'Invalid entry Data', 'New  input cannot be empty');
+			alert( 'Invalid entry Data', 'New  input cannot be empty');
 	};
 
 	async function getData() {
@@ -114,7 +114,7 @@ const BfScreen = props => {
 	};
 
 	function converter(heightn, neckn, hipn, waistn, measures) {
-		if (measures == 'Metric') {
+		if (measures == 'false') {
 			converted = heightn / 100;
 			setvisualHeight(converted.toFixed(2));
 			setvisualNeck(neckn.toFixed(0));
@@ -122,7 +122,7 @@ const BfScreen = props => {
 			setvisualWaist(waistn.toFixed(0));
 			setmeasureused([' meters', ' cms']);
 		}
-		if (measures == 'Imperial') {
+		if (measures == 'true') {
 			converted = heightn * 0.3937007874; //centimeters to inches
 			inches = converted % 12
 			feet = (converted - inches)/12
@@ -158,25 +158,25 @@ const BfScreen = props => {
 
 			case 0:
 				console.log('Female Imperial');
-				converter(heightn, neckn, hipn, waistn, (measures = 'Imperial'));
+				converter(heightn, neckn, hipn, waistn, (measures = 'true'));
 				fin = 495 /(1.29579 - 0.35004 * Math.log10(waistn + hipn - neckn) + 0.221 * Math.log10(heightn)) - 450;
 				fin = fin.toFixed(1);
 				break;
 			case 1:
 				console.log('Male Imperial');
-				converter(heightn, neckn, hipn, waistn, (measures = 'Imperial'));
+				converter(heightn, neckn, hipn, waistn, (measures = 'true'));
 				fin = 495 / (1.0324 - 0.19077 * Math.log10(waistn - neckn) + 0.15456 * Math.log10(heightn)) - 450;
 				fin = fin.toFixed(1);
 				break;
 			case 10:
 				console.log('Female Metric');
-				converter(heightn, neckn, hipn, waistn, (measures = 'Metric'));
+				converter(heightn, neckn, hipn, waistn, (measures = 'false'));
 				fin = 495 /(1.29579 - 0.35004 * Math.log10(waistn + hipn - neckn) + 0.221 * Math.log10(heightn)) - 450;
 				fin = fin.toFixed(1);
 				break;
 			case 11:
 				console.log('Male Metric');
-				converter(heightn, neckn, hipn, waistn, (measures = 'Metric'));
+				converter(heightn, neckn, hipn, waistn, (measures = 'false'));
 				fin = 495 / (1.0324 - 0.19077 * Math.log10(waistn - neckn) + 0.15456 * Math.log10(heightn)) - 450;
 				fin = fin.toFixed(1);
 				break;
@@ -193,97 +193,65 @@ const BfScreen = props => {
 	};
 
 	return (
-		<Block flex center style={styles.home}>
+		<S.MainView>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={styles.articles}
 			>
 				<Block flex>
 					<Block style={styles.input}>
-						<Text style={styles.text}>Height: </Text>
-						<Text
-							style={styles.inputvalues}
-							keyboardType="number-pad"
-						>
+						<S.TitleLeft>Height: </S.TitleLeft>
+						<S.TitleRight>
 							{visualHeight + measureused[0]}
-						</Text>
+						</S.TitleRight>
 					</Block>
 					<Block style={styles.input}>
-						<Text style={styles.text}>Neck: </Text>
-						<Text
-							style={styles.inputvalues}
-							keyboardType="number-pad"
-						>
+						<S.TitleLeft>Neck: </S.TitleLeft>
+						<S.TitleRight>
 							{visualNeck + measureused[1]}
-						</Text>
+						</S.TitleRight>
 					</Block>
 					<Block style={styles.input}>
-						<Text style={styles.text}>Hip: </Text>
-						<Text
-							style={styles.inputvalues}
-							keyboardType="number-pad"
-						>
+						<S.TitleLeft>Hip: </S.TitleLeft>
+						<S.TitleRight>
 							{visualHip + measureused[1]}
-						</Text>
+						</S.TitleRight>
 					</Block>
 					<Block style={styles.input}>
-						<Text style={styles.text}>Waist: </Text>
-						<Text
-							style={styles.inputvalues}
-							keyboardType="number-pad"
-						>
+						<S.TitleLeft>Waist: </S.TitleLeft>
+						<S.TitleRight>
 							{visualWaist + measureused[1]}
-						</Text>
+						</S.TitleRight>
 					</Block>
 					<Block style={styles.input}>
-						<Text
-							style={{
-								...styles.text,
-								...{
-									fontSize: 28
-								}
-							}}
+						<S.TitleLeft
+							style={{fontSize: 28}}
 						>
 							Body Fat:{' '}
-						</Text>
-						<Text
-							style={{
-								...styles.text,
-								...{
-									fontSize: 28,
-									fontFamily:
-										argonTheme.FONTS.SECONDARY,
-									textAlign: 'left'
-								}
-							}}
+						</S.TitleLeft>
+						<S.TitleRight
+							style={{ fontSize: 28 }}
 						>
 							{Final}%
-						</Text>
+						</S.TitleRight>
 					</Block>
 				</Block>
 				<Block style={styles.text}>
-					<Button
-						style={styles.button}
-						round
-						size="small"
-						onPress={() => setIsAddMode(true)}
-					>
-						Update
-					</Button>
+					<S.UpdateButton
+						onPress={() => setIsAddMode(true)}>
+						<S.UpdateTitle>Update</S.UpdateTitle>
+					</S.UpdateButton>
 					<Measuresinput
 						visible={isAddMode}
 						onAddMeasures={addMeasuresHandler}
 					/>
 				</Block>
 			</ScrollView>
-		</Block>
+		</S.MainView>
 	);
 };
 
 const styles = StyleSheet.create({
-	home: {
-		width: width
-	},
 	articles: {
 		width: width - theme.SIZES.BASE * 2,
 		paddingVertical: theme.SIZES.BASE
@@ -293,22 +261,9 @@ const styles = StyleSheet.create({
 		alignContent: 'space-around',
 		padding: 1
 	},
-	button: {
-		flexDirection: 'row',
-		alignContent: 'space-around',
-		padding: 1,
-		width: '35%'
-	},
-	inputvalues: {
-		fontSize: 24,
-		fontFamily: argonTheme.FONTS.SECONDARY,
-		width: '50%'
-	},
 	text: {
 		flexDirection: 'row',
 		flex: 1,
-		fontSize: 24,
-		fontFamily: argonTheme.FONTS.PRIMARY,
 		alignContent: 'flex-end',
 		textAlign: 'right',
 		alignSelf: 'center',

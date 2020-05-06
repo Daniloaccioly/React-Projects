@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Circle } from 'react-native-svg';
 import { AreaChart, Grid, YAxis, XAxis } from 'react-native-svg-charts';
-import { argonTheme } from '../constants/index';
+import { LightTheme } from '../constants/index';
 import { Text, View, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import * as S from '../styles';
 
 const { height } = Dimensions.get('window');
 
@@ -105,7 +105,7 @@ const WeightChart = (props) => {
 				stroke={color}
 				fill={
 					tooltipIndex == index
-						? argonTheme.COLORS.PRIMARY
+						? LightTheme.COLORS.PRIMARY
 						: '#DAFBF7'
 				}
 				onPress={() => {
@@ -124,13 +124,13 @@ const WeightChart = (props) => {
 						flexDirection: 'column', 
 						borderColor: 'black',
 						borderRightWidth: 3,
-						backgroundColor: argonTheme.COLORS.BACKGROUND  }} >
+						 }}>
 						<Text style={{ height: 32 }}></Text>
 						<YAxis
 							style={{ flex: 1}}
 							data={[Min, Max]}
 							contentInset={contentInset}
-							svg={{fill: argonTheme.COLORS.PRIMARY, fontSize: 20 }}
+							svg={{fill: LightTheme.COLORS.PRIMARY, fontSize: 20 }}
 							numberOfTicks={(Max-Min)/2}
 							formatLabel={(value) => `${value}kg`}/>
 					</View>
@@ -146,13 +146,13 @@ const WeightChart = (props) => {
 						<View style={{width: elapsed*3.6,}}>
 							<XAxis
 								style={{
-								backgroundColor: argonTheme.COLORS.PRIMARY, 
-								paddingTop: 10,}}
-							data={data}
-							xAccessor={({ item }) => moment(item.date) }
-							contentInset={contentInset}
-							svg={{fill: 'white', fontSize: 16}}
-							numberOfTicks={elapsedMonths}
+									backgroundColor: LightTheme.COLORS.PRIMARY, 
+									paddingTop: 10,}}
+								data={data}
+								xAccessor={({ item }) => moment(item.date) }
+								contentInset={contentInset}
+								svg={{fill: 'white', fontSize: 16}}
+								numberOfTicks={elapsedMonths}
 								formatLabel={(value) => `${moment(value).format('DD MMM')}`}/>
 							<AreaChart
 								style={styles.container}
@@ -161,11 +161,11 @@ const WeightChart = (props) => {
 								xAccessor={({ item }) => moment(item.date)}
 								contentInset={contentInset}
 								svg={{
-									fill: argonTheme.COLORS.PRIMARY,
+									fill: LightTheme.COLORS.PRIMARY,
 									fillOpacity: 0.75}}
 								numberOfTicks={10}>
 								<Grid
-									svg={{stroke: argonTheme.COLORS.PRIMARY,}}
+									svg={{stroke: LightTheme.COLORS.PRIMARY,}}
 									belowChart={false}
 									direction={Grid.Direction.BOTH}/>
 								<ChartPoints color="black" />
@@ -174,18 +174,17 @@ const WeightChart = (props) => {
 					</ScrollView>					
 				</View>
 				<View style={{ flexDirection: 'row' }}>
-					{tooltipX == null ? (<Text  style={styles.tooltext}> </Text>
+					{tooltipX == null ? (<S.ToolTip> </S.ToolTip>
 					) : (
-					<Text style={styles.tooltext}>{moment(tooltipX).format('DD MMM')},{' '}</Text>)}
-					{tooltipY == null ? (<Text  style={styles.tooltext}> </Text>
+					<S.ToolTip>{moment(tooltipX).format('DD MMM')},{' '}</S.ToolTip>)}
+					{tooltipY == null ? (<S.ToolTip> </S.ToolTip>
 					) : (
-					<Text style={styles.tooltext}>{tooltipY} kg</Text>)}
-					{tooltipX == null ? (<Text  style={styles.tooltext}> </Text>
+					<S.ToolTip>{tooltipY} kg</S.ToolTip>)}
+					{tooltipX == null ? (<S.ToolTip> </S.ToolTip>
 					) : (
-					<Text style={{
-					...styles.tooltext,
-						...{flex: 1,textAlign: 'right',}
-					}}>{moment(tooltipX).format('YYYY')}{' '}</Text>)}
+					<S.ToolTip style={{flex: 1,textAlign: 'right',}}>
+						{moment(tooltipX).format('YYYY')}{' '}
+					</S.ToolTip>)}
 				</View>
 			</View>
 			) : (
@@ -199,7 +198,7 @@ const WeightChart = (props) => {
 					<Text
 						style={{
 							fontSize: 18,
-							color: argonTheme.COLORS.SECONDARY,
+							color: LightTheme.COLORS.SECONDARY,
 						}}
 					>
 						No data to show yet.
@@ -216,16 +215,6 @@ const styles = StyleSheet.create({
 		height: height / 2,
 		flex: 6.5,
 	},
-	heading: {
-		fontSize: 25,
-		textAlign: 'center',
-	},
-	tooltext:{
-		paddingLeft: 12,
-		fontFamily: argonTheme.FONTS.PRIMARY,
-		fontSize: 18,
-		color: 'black',
-	}
 });
 
 export default WeightChart;

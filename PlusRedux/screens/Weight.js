@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Dimensions, ScrollView, AsyncStorage, Alert } from 'react-native';
-import { Block, Text, Button } from 'galio-framework';
-import { argonTheme } from '../constants/index';
+import { StyleSheet, ScrollView, AsyncStorage, alert } from 'react-native';
+import { Block } from 'galio-framework';
+import { LightTheme } from '../constants/index';
 import Weightinput from '../components/WeightInput'; // export default without braces {}, export normal with braces {}
 import WeightChart from '../components/Chart';
-
-const { width } = Dimensions.get('screen');
+import * as S from '../styles';
 
 const Weight = props => {
 
@@ -17,7 +16,7 @@ const Weight = props => {
 			setWeight(enteredWeight);
 			setIsAddMode(false);
 			AsyncStorage.setItem('@weight', enteredWeight);
-		} else Alert.alert('Invalid entry Data', 'Your weight cannot empty');
+		} else alert('Invalid entry Data', 'Your weight cannot empty');
 	};
 
 	async function getWeightValue() {
@@ -35,35 +34,26 @@ const Weight = props => {
 	}, []);
 
 	return (
-		<ScrollView showsVerticalScrollIndicator={false}>
-			<WeightChart/>
-			<Block style={styles.input}>
-				<Text style={styles.text}>Weight: </Text>
-				<Text
-					 style={{
-						 ...styles.text,
-						...{ 
-							textAlign: 'left',
-							fontFamily: argonTheme.FONTS.SECONDARY,
-					}
-				}}
-				>{Weight}</Text>
-			</Block>
-			<Block style={styles.text}>
-				<Button
-					style={styles.input}
-					round
-					size="small"
-					onPress={() => setIsAddMode(true)}
-				>
-					<Text color="white">Weight Update</Text>
-				</Button>
-				<Weightinput
-					visible={isAddMode}
-					onAddWeight={addWeightHandler}
-				/>
-			</Block>
-		</ScrollView>
+		<S.MainView>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<WeightChart/>
+				<Block style={styles.input}>
+					<S.TitleLeft>Weight: </S.TitleLeft>
+					<S.TitleRight>{Weight}</S.TitleRight>
+				</Block>
+				<Block style={styles.text}>
+					<S.UpdateButton
+						onPress={() => setIsAddMode(true)}
+					>
+						<S.UpdateTitle>Weight Update</S.UpdateTitle>
+					</S.UpdateButton>
+					<Weightinput
+						visible={isAddMode}
+						onAddWeight={addWeightHandler}
+					/>
+				</Block>
+			</ScrollView>
+		</S.MainView>
 	);
 };
 
@@ -77,7 +67,7 @@ const styles = StyleSheet.create({
 	text: {
 		flex: 1,
 		fontSize: 24,
-		fontFamily: argonTheme.FONTS.PRIMARY,
+		fontFamily: LightTheme.FONTS.PRIMARY,
 		alignContent: 'flex-end',
 		textAlign: 'right',
 		alignSelf: 'center',

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, Platform, TouchableNativeFeedback } from 'react-native';
-import { argonTheme } from '../constants';
+import React from 'react';
+import { TouchableOpacity, View, Platform, TouchableNativeFeedback } from 'react-native';
+import { LightTheme } from '../constants/index';
+import * as S from '../styles';
 
 const GridTile = props => {
 
@@ -9,48 +10,24 @@ const GridTile = props => {
 		TouchableCmp = TouchableNativeFeedback;
 	}
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>
+		<S.GridContainer>
+			<S.GridTitle >
 				{props.title}
-			</Text>
+			</S.GridTitle>
 			<TouchableCmp
-				onPress={
-					props.onSelect
-				}
+				onPress={ props.onSelect }
 				style={{ flex: 1 }}>
 				<View
 					style={{
 						flex: 1,
-						borderColor:  argonTheme.COLORS.PRIMARY,
+						borderColor:  LightTheme.COLORS.PRIMARY,
 						borderWidth: 3,
 						backgroundColor: props.color
 					}}
 				></View>
 			</TouchableCmp>
-		</View>
+		</S.GridContainer>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		borderWidth: 2,
-		borderColor: 'white',
-		padding: 5,
-		height: 90,
-		flexDirection: 'row',
-		backgroundColor: 'white',
-		alignItems: 'stretch',
-		justifyContent: 'center'
-	},
-
-	title: {
-		flex: 4,
-		fontSize: 22,
-		color: 'white',
-		textAlign: 'left',
-		borderColor:  'white',
-		color:  'black',
-	}
-});
 
 export default GridTile;

@@ -1,36 +1,30 @@
 import React, { useState } from 'react';
-import {
-	TouchableOpacity,
-	StyleSheet,
-} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Icon from './Icon';
-import argonTheme from '../constants/Theme';
+import { withTheme } from 'styled-components';
 import Settings from './Settings';
 import { ChangeSettings } from '../store/actions/actions';
 import { useDispatch } from 'react-redux';
 
-const SettingsButton = ({ isWhite, style }) =>  {
+const SettingsButton = props =>  {
 
 	const dispatch = useDispatch();
 	const [isSettingsMode, setSettingsMode] = useState(false); // Make Settings visible/invisible
 
-	const addSettingsHandler = (Gender, Measurement) => {
+	const addSettingsHandler = (SwitchGender, SwitchMeasurement, SwitchTheme) => {
 		//onPress of Save and Exit
 		setSettingsMode(false);
-		dispatch(ChangeSettings(GenderPL = Gender, MeasurePL = Measurement))
+		dispatch(ChangeSettings(GenderPL = SwitchGender, MeasurePL = SwitchMeasurement, ThemePL = SwitchTheme))
 	};
-
+	
 	return (
-
 	<TouchableOpacity
-		style={[styles.button, style]}
-		onPress={() => setSettingsMode(true)}
-	>
+		onPress={() => setSettingsMode(true)}>
 		<Icon
 			family="MaterialCommunityIcons"
 			size={28}
 			name="cogs"
-			color={argonTheme.COLORS[isWhite ? 'WHITE' : 'ICON']}
+			color={props.theme.COLORS.ICON}
 		/>
             <Settings 
                   visible={isSettingsMode} 
@@ -40,11 +34,4 @@ const SettingsButton = ({ isWhite, style }) =>  {
 	);
 }
 
-const styles = StyleSheet.create({
-	button: {
-		padding: 12,
-		position: 'relative'
-	},
-});
-
-export default SettingsButton;
+export default withTheme(SettingsButton);
