@@ -5,6 +5,7 @@ import * as Font from 'expo-font';
 import { createStore, combineReducers } from 'redux';
 import { AppLoading } from 'expo';
 import Screens from './navigation/Screens';
+import ThemeGeter from './util/ThemeGeter';
 import defaultReducer from './store/reducers/default';
 import { ThemeProvider } from 'styled-components';
 import { LightTheme, DarkTheme } from './constants/index';
@@ -23,8 +24,8 @@ const fetchFonts = () => {
 	});
 };
 
-export default function App() {
-	const [SelectedTheme, setSelectedTheme] = useState('Light');
+const App = props => {
+	const [SelectedTheme, setSelectedTheme] = useState();
 	const [fontLoaded, setFontLoaded] = useState(false);
 
 	async function getTheme() {
@@ -38,7 +39,6 @@ export default function App() {
 		} finally {
 			setSelectedTheme(theme);
 		}
-
 	}
 
 	useEffect(() => {
@@ -54,11 +54,21 @@ export default function App() {
 		);
 	}
 
+	const ChangeTheme = (ReduxTheme) => {
+		setSelectedTheme(ReduxTheme);
+		console.log ('check ', ReduxTheme);
+	};
+
 	return (
-				<Provider store={store}>
-					<ThemeProvider theme= { SelectedTheme == 'false' ? LightTheme : DarkTheme }>
-						<Screens />	
+			<Provider store={store}>
+				<ThemeProvider theme= { SelectedTheme == 'false' ? LightTheme : DarkTheme }>
+					<ThemeGeter
+						onHere={ChangeTheme} 
+					/>
+					<Screens/>	
 					</ThemeProvider>
 				</Provider>
 	);
 }
+
+export default  App;

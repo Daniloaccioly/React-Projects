@@ -133,7 +133,6 @@ export const HeaderText = styled.Text`
       color: ${props =>props.theme.COLORS.ICON};
 `;
 
-
  export const ButtomBar = styled.View`
       width: 1px;
       height: 40px;

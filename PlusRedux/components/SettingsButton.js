@@ -27,7 +27,7 @@ const SettingsButton = props =>  {
 			color={props.theme.COLORS.ICON}
 		/>
             <Settings 
-                  visible={isSettingsMode} 
+			visible={isSettingsMode} 
                   onSettings={addSettingsHandler} 
             />
 	</TouchableOpacity>

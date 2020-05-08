@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Modal, AsyncStorage, Switch } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { ChangeTheme } from '../store/actions/actions';
 import { Block } from 'galio-framework';
 import { withTheme } from 'styled-components';
 import * as S from '../styles';
@@ -71,6 +73,7 @@ const Settings = props => {
 					break;
 				case 'true':
 					setSwitchTheme(true);
+					dispatch(ChangeTheme(text = 'true'));
 					break;
 				default:
 					break;
@@ -79,10 +82,19 @@ const Settings = props => {
 	}
 
 	useEffect(() => {
+		getThemeValue();
 		getMeasureValue();
 		getGenderValue();
-		getThemeValue();
 	}, []); //array de variavéis que quando alteradas rodam o useEffect novamente
+
+	const dispatch = useDispatch();
+
+	const HandleSwitchTheme =( value ) => {
+		setSwitchTheme(value);
+		console.log ('Dispatch', value, SwitchTheme);
+		//dispatch pro Redux
+		dispatch(ChangeTheme(text = value));
+	}
 
 	return (
 		<Modal
@@ -130,7 +142,7 @@ const Settings = props => {
 						}}
 						style={styles.switch}
 						value={SwitchTheme}
-						onValueChange={value => setSwitchTheme(value)}
+						onValueChange={HandleSwitchTheme}
 					/>
 					<S.UpdateTitle style={styles.text}>
 						{SwitchTheme ? 'Dark' : 'Light'}

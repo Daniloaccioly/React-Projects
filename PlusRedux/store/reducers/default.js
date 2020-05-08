@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 
 const initialState = {
 	initialColor: 'lightgreen',	
-	Theme: 'Light',
+	Theme: 'false',
 	reduxMeasure: 'false',
 	reduxGender: 'false',
 	reduxCode: 0,
@@ -16,8 +16,8 @@ const defaultReducer = (state = initialState, action) => {
 				initialColor: text}
 
 		case CHANGETHEME:
-			 return {...state,
-				Theme: text}
+			 return {...state,		
+				Theme: JSON.stringify(text)}
 
 		//female imperial 0
 		//female metric 10

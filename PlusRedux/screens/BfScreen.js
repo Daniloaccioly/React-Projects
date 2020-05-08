@@ -60,7 +60,6 @@ const BfScreen = props => {
 				AsyncStorage.setItem('@weist', enteredWaist);
 			}	
 
-
 		} else
 			alert( 'Invalid entry Data', 'New  input cannot be empty');
 	};

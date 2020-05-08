@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Easing, Animated } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
@@ -16,6 +16,16 @@ import DrawerItem from '../components/DrawerItem';
 
 // header for screens
 import Header from '../components/Header';
+
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+
+const _loadSomething = props => {
+	change = useSelector(state => state.default.reduxTheme)
+	props.onchange.bind( change )
+};
+
+
 
 const transitionConfig = (transitionProps, prevTransitionProps) => ({
 	transitionSpec: {
@@ -71,6 +81,7 @@ const WeightStack = createStackNavigator(
 			navigationOptions: ({ navigation }) => ({
 				header: (
 					<Header
+						onchangechange={_loadSomething}
 						search
 						options
 						title="Weight"
@@ -111,7 +122,6 @@ const BfStack = createStackNavigator(
 		transitionConfig
 	}
 );
-
 
 const FirstStack = createStackNavigator(
 	{

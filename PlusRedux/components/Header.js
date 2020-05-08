@@ -11,6 +11,10 @@ const { width } = Dimensions.get('window');
 
 const HeaderReloaded = props => {
 
+      const _load =(coisodosettings) => {
+		console.log ('deu certo?', coisodosettings)
+	}
+
       return (
             <S.RootHeader>
                    <S.TopBlock></S.TopBlock>
@@ -25,6 +29,7 @@ const HeaderReloaded = props => {
                         <S.HeaderText style= {{ fontSize: 20 }}>{props.title}</S.HeaderText>
                         <SettingsButton
                               navigation={props.navigation}
+                              onchange3={_load}
 				/>
                    </View>
                    <S.HeaderSub >
