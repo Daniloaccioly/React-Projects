@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import { withTheme } from 'styled-components';
 import { TouchableOpacity, Platform, TouchableNativeFeedback } from 'react-native';
 import GridTile from '../components/GridTile';
 import { MODEL } from '../data/dummy-data';
@@ -18,11 +19,13 @@ const FirstScreen = props => {
 				title={itemData.item.title}
 				color={itemData.item.color}
 				onSelect={() => {
-					console.log(itemData.item.index)
 					props.navigation.navigate({
 						routeName: 'HiitScreen',
 						params: {
+							title:itemData.item.title,
 							Id: itemData.item.id,
+							bgcolor: props.theme.COLORS.PRIMARY,
+							textcolor: props.theme.COLORS.TEXT,
 						},
 					});
 				}}
@@ -30,7 +33,6 @@ const FirstScreen = props => {
 		);
 	};
 
-	
 	return (
 		<S.FirstView>
 			<FlatList
@@ -43,4 +45,4 @@ const FirstScreen = props => {
 	);
 };
 
-export default FirstScreen;
+export default withTheme(FirstScreen);

@@ -112,6 +112,7 @@ const BfScreen = props => {
 		}
 	};
 
+	//Levando em conta que o valor gravado no AsyncStorage é sempre em centimetros
 	function converter(heightn, neckn, hipn, waistn, measures) {
 		if (measures == 'false') {
 			converted = heightn / 100;
@@ -154,7 +155,6 @@ const BfScreen = props => {
 		let hipn = parseFloat(Hip, 10);
 		let fin = 0;
 		switch (code) {
-
 			case 0:
 				console.log('Female Imperial');
 				converter(heightn, neckn, hipn, waistn, (measures = 'true'));
@@ -180,7 +180,6 @@ const BfScreen = props => {
 				fin = fin.toFixed(1);
 				break;
 		}
-
 		try {
 			AsyncStorage.setItem('@final', fin.toString());
 		} catch (error) {
@@ -192,7 +191,7 @@ const BfScreen = props => {
 	};
 
 	return (
-		<S.MainView>
+		<S.MainView style= {{borderRightWidth: 0}}>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={styles.articles}

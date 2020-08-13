@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import { createStore, combineReducers } from 'redux';
@@ -25,25 +24,8 @@ const fetchFonts = () => {
 };
 
 const App = props => {
-	const [SelectedTheme, setSelectedTheme] = useState();
 	const [fontLoaded, setFontLoaded] = useState(false);
-
-	async function getTheme() {
-		try {
-			theme = await AsyncStorage.getItem('@theme');
-			if (theme === null){
-				theme = 'true'
-			}
-		} catch (error) {
-			console.log('App.js: Error retrieving theme ' + error);
-		} finally {
-			setSelectedTheme(theme);
-		}
-	}
-
-	useEffect(() => {
-		getTheme();
-	}, []);
+	const [SelectedTheme, setSelectedTheme] = useState();
 
 	if (!fontLoaded) {
 		return (
@@ -56,7 +38,6 @@ const App = props => {
 
 	const ChangeTheme = (ReduxTheme) => {
 		setSelectedTheme(ReduxTheme);
-		console.log ('check ', ReduxTheme);
 	};
 
 	return (

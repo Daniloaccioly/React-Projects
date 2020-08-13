@@ -1,35 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Dimensions, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Dimensions, FlatList, TouchableOpacity } from 'react-native';
+import { withTheme } from 'styled-components';
 import { LightTheme } from '../constants/index';
 import { MODEL } from '../data/dummy-data';
+import Timer from '../components/Timer';
+import Icon from '../components/Icon';
+import * as S from '../styles';
 const { height } = Dimensions.get('screen');
 
 const HiitScreen = props => {
+	const [isVisible, setisVisible] = useState(false);
 	const trainingID = props.navigation.getParam('Id');
 	const selectedTraining = MODEL.find(item => item.id === trainingID )
 	const [open, setOpen] = useState(false);
-
 	const listHeight = open ? ((height/2) -60): 0;
 
+	const quitTimer = props => {
+		//reset data... eventually
+		setisVisible(false);
+		};
+
 	const AddToRoutine = props => {
-		console.log('AddTo Routine')
+		console.log('Add Button pressed, HiitScreen')
 	}
 
 	const renderEX = itemData => {
 		return (
-			<View style={{ 
-				margin: 5,
-				alignItems: 'center',
-			 }}>
-			{itemData.item !== 'AddButtom' ? (
-			<Text	
+			<View 
 				style={{ 
-					backgroundColor: LightTheme.COLORS.BACKGROUND,
-					flex: 1, 
+					margin: 5,
+					alignItems: 'center',
+			}}>
+			{itemData.item !== 'AddButtom' ? (
+			<S.UpdateTitle	
+				style={{ 
+					height: 50,
 					fontSize: 22, 
-					textAlign: 'center', 
-					height: 50, }}>		
-			{itemData.item}</Text>
+					}}>		
+			{itemData.item}</S.UpdateTitle>
 			) : (
 			<TouchableOpacity
 				onPress={AddToRoutine}
@@ -42,11 +50,7 @@ const HiitScreen = props => {
 					backgroundColor: LightTheme.COLORS.PRIMARY,
 					}}>
 					<Text
-						style={{ 
-							flex: 1, 
-							fontSize: 28,
-							textAlign: 'center',
-							 }}>
+						style={{ flex: 1, fontSize: 28, textAlign: 'center'}}>
 						+
 					</Text>
 			 </TouchableOpacity>
@@ -56,98 +60,79 @@ const HiitScreen = props => {
 	}
 
 	return (
-		<View
-			style={styles.container}
-		>
+		<S.MainView style = {{paddingVertical: 10, paddingHorizontal: 10, }}>
+			<Timer
+				visible={isVisible}
+				onChange={quitTimer}
+			/>
 			<View style={{ flexDirection: 'row', }}>
-                 		<Text  style={{
-					...styles.title,
-					...{
-						textAlign: 'left',
-						fontFamily: LightTheme.FONTS.PRIMARY,
-						fontSize: 32,
-						color: selectedTraining.color,
-					}
-				}}>
+                 		<S.TitleRight>
 					{selectedTraining.title} 
-				</Text>
-				<TouchableOpacity style={{ flex: 0.5, backgroundColor: 'red', borderRadius: 25,}}>
-					<Text style={{
-						...styles.title,
-						...{
-							color: LightTheme.COLORS.BACKGROUND,
-							fontFamily: LightTheme.FONTS.PRIMARY,
-							fontSize: 28,
-							}
-						}}>
-						Start </Text>
-				</TouchableOpacity>
+				</S.TitleRight>
+				<S.UpdateButton>
+					<S.UpdateTitle 
+						style={{fontSize: 28,}}
+						onPress={() => setisVisible(true)}>
+						Start 
+					</S.UpdateTitle>
+				</S.UpdateButton>
 			</View>
-			<Text style={{
-				...styles.title,
-				...{
-					textAlign:'left',
-					borderBottomWidth: 5,
-					borderColor: selectedTraining.color,
-				}
-			}}>
-				 Tabatas:  1</Text>
+			<S.TitleRight> Tabatas:  1 </S.TitleRight>
 			<View style={{ flex: 3, flexDirection: 'row', }}>
-				<View style={{ flex: 1  }}>
-					<Text style={styles.title}> Exercise </Text>
-					<Text style={styles.title}>Interval </Text>
-					<Text style={styles.title}> Rest </Text>
+				<View style={{ flex: 1 }}>
+					<S.UpdateTitle style={{ fontSize: 22 }}> Exercise </S.UpdateTitle>
+					<S.UpdateTitle style={{ fontSize: 22 }}> Interval </S.UpdateTitle>
+					<S.UpdateTitle style={{ fontSize: 22 }}> Rest </S.UpdateTitle>
 				</View>	
 				<View style={{ flex: 1 }}>
-					<Text style={styles.title}> {selectedTraining.exTime} </Text>
-					<Text style={styles.title}> {selectedTraining.intTime} </Text>
-					<Text style={styles.title}> {selectedTraining.Rest} </Text>
+					<S.UpdateTitle style={{ fontSize: 22 }}> {selectedTraining.exTime} </S.UpdateTitle>
+					<S.UpdateTitle style={{ fontSize: 22 }}> {selectedTraining.intTime} </S.UpdateTitle>
+					<S.UpdateTitle style={{ fontSize: 22 }}> {selectedTraining.Rest} </S.UpdateTitle>
 				</View>
 			</View>
-			<View style={{ flex: 10, backgroundColor: LightTheme.COLORS.BACKGROUND, }}>
+			<S.MainAccordion>
 				<TouchableOpacity
 					onPress={() => setOpen(prev => !prev)}
-					style={{ }}>
-					<Text
+					style={{ height: 35, flexDirection: 'row', justifyContent: 'center', borderBottomWidth: 2, borderColor: 'aqua'}}>
+					<S.UpdateTitle
 						style={{ 
-							height: 50, 
+							flex: 1,
 							fontSize: 22,
-							textAlign: 'center',
-							backgroundColor:LightTheme.COLORS.BACKGROUND, }}>
+							//textAlign: 'center',
+							}}>
 						Open Accordion
-					</Text>
+					</S.UpdateTitle>
+					<Icon
+                                          size={22}
+							name= {open ? 'chevron-up' : 'chevron-down'}
+                                          family="MaterialCommunityIcons"
+                                          color= 'red'
+                                    />
 			 </TouchableOpacity>
-			 <View style={{height: listHeight }}>
-						<FlatList
-							keyExtractor={(item, index) => item}
+				 <View style={{height: listHeight }}>
+					<FlatList
+						keyExtractor={(item, index) => item}
 							data={selectedTraining.ListExercises}
 							renderItem={renderEX}
-							numColumns={1}/>
-					</View>
-			</View>	
-		</View>
+						numColumns={1}/>
+				</View>
+			</S.MainAccordion>
+		</S.MainView>
 	);
 };
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		borderRightWidth: 1,
-		paddingVertical: 10,
-		paddingHorizontal: 10,
-		backgroundColor: LightTheme.COLORS.BACKGROUND,
-		alignItems: 'stretch',
-		justifyContent: 'center'
-	},
-	title: {
-		flex: 1,
-		fontSize: 22,
-		fontFamily: LightTheme.FONTS.SECONDARY,
-		color: 'white',
-		textAlign: 'center',
-		borderColor:  'white',
-		color:  'black',
-	}
-});
+HiitScreen.navigationOptions = navigationData => {
+	const title = navigationData.navigation.getParam('title');
 
-export default HiitScreen;
+	const selected = MODEL.find(item => item.title === title);
+    
+	return {
+		headerStyle: {	
+			backgroundColor: navigationData.navigation.getParam('bgcolor')
+		},
+		headerTintColor: navigationData.navigation.getParam('textcolor'),
+	 	headerTitle: selected.title
+	};
+};
+
+export default withTheme(HiitScreen);

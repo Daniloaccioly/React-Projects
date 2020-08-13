@@ -9,11 +9,7 @@ import {Dimensions} from 'react-native';
 
 const { width } = Dimensions.get('window');
 
-const HeaderReloaded = props => {
-
-      const _load =(coisodosettings) => {
-		console.log ('deu certo?', coisodosettings)
-	}
+const Header = props => {
 
       return (
             <S.RootHeader>
@@ -29,7 +25,6 @@ const HeaderReloaded = props => {
                         <S.HeaderText style= {{ fontSize: 20 }}>{props.title}</S.HeaderText>
                         <SettingsButton
                               navigation={props.navigation}
-                              onchange3={_load}
 				/>
                    </View>
                    <S.HeaderSub >
@@ -79,4 +74,4 @@ const HeaderReloaded = props => {
       );
 };
 
-export default withTheme(withNavigation(HeaderReloaded));
+export default withTheme(withNavigation(Header));

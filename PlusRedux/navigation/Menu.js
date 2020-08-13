@@ -1,17 +1,16 @@
 import React from 'react';
 import {  DrawerNavigatorItems } from 'react-navigation-drawer';
 import { ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { Block, theme, Text } from 'galio-framework';
-
+import { Block, theme } from 'galio-framework';
+import * as S from '../styles';
 const { width } = Dimensions.get('screen');
 
 const Drawer = props => (
-	<Block
-		style={styles.container}
+	<S.MainView
 		forceInset={{ top: 'always', horizontal: 'never' }}
 	>
-		<Block flex={0.05} style={styles.header}>
-                  <Text>Menu</Text>
+		<Block style={styles.header}>
+                  <S.HeaderText>Menu</S.HeaderText>
 		</Block>
 		<Block flex>
 			<ScrollView
@@ -21,41 +20,15 @@ const Drawer = props => (
 				< DrawerNavigatorItems {...props} />
 			</ScrollView>
 		</Block>
-	</Block>
+	</S.MainView>
 );
 
 const Menu = {
 	contentComponent: props => <Drawer {...props} />,
-	drawerBackgroundColor: 'white',
-	drawerWidth: width * 0.8,
-	contentOptions: {
-		activeTintColor: 'white',
-		inactiveTintColor: '#000',
-		activeBackgroundColor: 'transparent',
-		itemStyle: {
-			width: width * 0.75,
-			backgroundColor: 'transparent'
-		},
-		labelStyle: {
-			fontSize: 18,
-			marginLeft: 12,
-			fontWeight: 'normal'
-		},
-		itemsContainerStyle: {
-			paddingVertical: 16,
-			paddingHorizonal: 12,
-			justifyContent: 'center',
-			alignContent: 'center',
-			alignItems: 'center',
-			overflow: 'hidden'
-		}
-	}
+	drawerWidth: width * 0.75,
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1
-	},
 	header: {
 		paddingHorizontal: 28,
 		paddingBottom: theme.SIZES.BASE,

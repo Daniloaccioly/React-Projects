@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Easing, Animated } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
@@ -18,14 +18,12 @@ import DrawerItem from '../components/DrawerItem';
 import Header from '../components/Header';
 
 // redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const _loadSomething = props => {
 	change = useSelector(state => state.default.reduxTheme)
 	props.onchange.bind( change )
 };
-
-
 
 const transitionConfig = (transitionProps, prevTransitionProps) => ({
 	transitionSpec: {

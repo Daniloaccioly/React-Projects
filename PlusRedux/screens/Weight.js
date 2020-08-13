@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, AsyncStorage, alert } from 'react-native';
-import { Block } from 'galio-framework';
+import { View, StyleSheet, ScrollView, AsyncStorage, alert } from 'react-native';
 import { LightTheme } from '../constants/index';
 import Weightinput from '../components/WeightInput'; // export default without braces {}, export normal with braces {}
 import WeightChart from '../components/Chart';
@@ -34,14 +33,14 @@ const Weight = props => {
 	}, []);
 
 	return (
-		<S.MainView>
+		<S.MainView style= {{borderRightWidth: 0}}>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<WeightChart/>
-				<Block style={styles.input}>
+				<View style={styles.input}>
 					<S.TitleLeft>Weight: </S.TitleLeft>
 					<S.TitleRight>{Weight}</S.TitleRight>
-				</Block>
-				<Block style={styles.text}>
+				</View>
+				<View style={styles.text}>
 					<S.UpdateButton
 						onPress={() => setIsAddMode(true)}
 					>
@@ -51,7 +50,7 @@ const Weight = props => {
 						visible={isAddMode}
 						onAddWeight={addWeightHandler}
 					/>
-				</Block>
+				</View>
 			</ScrollView>
 		</S.MainView>
 	);

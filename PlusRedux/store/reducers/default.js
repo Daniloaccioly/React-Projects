@@ -43,6 +43,7 @@ const defaultReducer = (state = initialState, action) => {
 					...state,
 					reduxMeasure: JSON.stringify( MeasurePL),
 					reduxGender: JSON.stringify(GenderPL),
+					Theme: JSON.stringify( ThemePL),
 					reduxCode: code,
 				}
 

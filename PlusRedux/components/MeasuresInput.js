@@ -6,7 +6,6 @@ import {
 	AsyncStorage,
 	TextInput
 } from 'react-native';
-import { Block } from 'galio-framework';
 import { useSelector } from 'react-redux';
 import * as S from '../styles';
 
@@ -92,7 +91,7 @@ const MeasuresInput = props => {
 			animationType="slide"
 		>
 			<S.MainContainer>
-				<Block style={styles.inputline}>
+				<View style={styles.inputline}>
 					<S.TitleLeft>Height: </S.TitleLeft>
 					<View style= {{flex: 1, flexDirection: 'row' }}>
 						<TextInput
@@ -112,8 +111,8 @@ const MeasuresInput = props => {
 						/>
 						<S.Imperial>{measureused[1]}</S.Imperial>
 					</View>
-				</Block>
-				<Block style={styles.inputline}>
+				</View>
+				<View style={styles.inputline}>
 					<S.TitleLeft>Neck: </S.TitleLeft>
 					<TextInput
 						value={enteredNeck}
@@ -123,8 +122,8 @@ const MeasuresInput = props => {
 						onChangeText={InputHandlerNeck}
 						keyboardType="number-pad"
 					/>
-				</Block>
-				<Block style={styles.inputline}>
+				</View>
+				<View style={styles.inputline}>
 					<S.TitleLeft>Hip: </S.TitleLeft>
 					<TextInput
 						value={enteredHip}
@@ -134,8 +133,8 @@ const MeasuresInput = props => {
 						onChangeText={InputHandlerHip}
 						keyboardType="number-pad"
 					/>
-				</Block>
-				<Block
+				</View>
+				<View
 					style={{
 						...styles.inputline,
 						...{
@@ -154,7 +153,7 @@ const MeasuresInput = props => {
 						onChangeText={InputHandlerWaist}
 						keyboardType="number-pad"
 					/>
-				</Block>
+				</View>
 				<S.UpdateButton
 					onPress={props.onAddMeasures.bind(
 						this,

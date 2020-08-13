@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Circle } from 'react-native-svg';
 import { AreaChart, Grid, YAxis, XAxis } from 'react-native-svg-charts';
 import { LightTheme } from '../constants/index';
+import { withTheme } from 'styled-components';
 import { Text, View, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import moment from 'moment';
 import * as S from '../styles';
@@ -105,13 +106,13 @@ const WeightChart = (props) => {
 				stroke={color}
 				fill={
 					tooltipIndex == index
-						? LightTheme.COLORS.PRIMARY
+						? props.theme.COLORS. MIDDLEPRIMARY
 						: '#DAFBF7'
 				}
 				onPress={() => {
 					settooltipX(moment(item.date)),
-						settooltipY(item.score),
-						settooltipIndex(index);
+					settooltipY(item.score),
+					settooltipIndex(index);
 				}}/>
 		));
 
@@ -130,7 +131,7 @@ const WeightChart = (props) => {
 							style={{ flex: 1}}
 							data={[Min, Max]}
 							contentInset={contentInset}
-							svg={{fill: LightTheme.COLORS.PRIMARY, fontSize: 20 }}
+							svg={{fill: props.theme.COLORS.TEXT, fontSize: 20 }}
 							numberOfTicks={(Max-Min)/2}
 							formatLabel={(value) => `${value}kg`}/>
 					</View>
@@ -146,7 +147,7 @@ const WeightChart = (props) => {
 						<View style={{width: elapsed*3.6,}}>
 							<XAxis
 								style={{
-									backgroundColor: LightTheme.COLORS.PRIMARY, 
+									backgroundColor: props.theme.COLORS.PRIMARY,
 									paddingTop: 10,}}
 								data={data}
 								xAccessor={({ item }) => moment(item.date) }
@@ -161,11 +162,11 @@ const WeightChart = (props) => {
 								xAccessor={({ item }) => moment(item.date)}
 								contentInset={contentInset}
 								svg={{
-									fill: LightTheme.COLORS.PRIMARY,
+									fill: props.theme.COLORS. MIDDLEPRIMARY,
 									fillOpacity: 0.75}}
 								numberOfTicks={10}>
 								<Grid
-									svg={{stroke: LightTheme.COLORS.PRIMARY,}}
+									svg={{stroke: props.theme.COLORS. MIDDLEPRIMARY, }}
 									belowChart={false}
 									direction={Grid.Direction.BOTH}/>
 								<ChartPoints color="black" />
@@ -198,7 +199,7 @@ const WeightChart = (props) => {
 					<Text
 						style={{
 							fontSize: 18,
-							color: LightTheme.COLORS.SECONDARY,
+							color: props.theme.COLORS.PRIMARY,
 						}}
 					>
 						No data to show yet.
@@ -217,4 +218,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default WeightChart;
+export default withTheme(WeightChart);

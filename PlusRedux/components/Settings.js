@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Modal, AsyncStorage, Switch } from 'react-native';
+import { StyleSheet, Modal, AsyncStorage, Switch, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { ChangeTheme } from '../store/actions/actions';
-import { Block } from 'galio-framework';
 import { withTheme } from 'styled-components';
 import * as S from '../styles';
 
@@ -103,7 +102,7 @@ const Settings = props => {
 			animationType="slide"
 		>
 			<S.MainContainer>
-				<Block style={styles.switchContainer}>
+				<View style={styles.switchContainer}>
 					<Switch
 						thumbColor=	{SwitchGender ? '#F9C6D9' : '#DAFBF7' }
 						trackColor={{
@@ -117,8 +116,8 @@ const Settings = props => {
 					<S.UpdateTitle style={styles.text}>
 						{SwitchGender ? 'Female' : 'Male' }
 					</S.UpdateTitle>
-				</Block>
-				<Block style={styles.switchContainer}>
+				</View>
+				<View style={styles.switchContainer}>
 					<Switch
 						thumbColor={'#3366CC'}
 						trackColor={{
@@ -132,8 +131,8 @@ const Settings = props => {
 					<S.UpdateTitle style={styles.text}>
 					{SwitchMeasurement ? 'Imperial' : 'Metric' }
 					</S.UpdateTitle>
-				</Block>
-				<Block style={styles.switchContainer}>
+				</View>
+				<View style={styles.switchContainer}>
 					<Switch
 						thumbColor={'#555'}
 						trackColor={{
@@ -147,19 +146,21 @@ const Settings = props => {
 					<S.UpdateTitle style={styles.text}>
 						{SwitchTheme ? 'Dark' : 'Light'}
 					</S.UpdateTitle>
-				</Block>
-				<S.UpdateButton style = {{marginTop: '15%'}}
-					onPress={props.onSettings.bind(
-						this,
-						SwitchGender,
-						SwitchMeasurement,
-						SwitchTheme
-					)}
-				>
-					<S.UpdateTitle>
-						Save and Exit
-					</S.UpdateTitle>
-				</S.UpdateButton>
+				</View>
+				<View style = {{ marginTop:'15%' }}>
+					<S.UpdateButton 
+						onPress={props.onSettings.bind(
+							this,
+							SwitchGender,
+							SwitchMeasurement,
+							SwitchTheme
+						)}
+					>
+						<S.UpdateTitle>
+							Save and Exit
+						</S.UpdateTitle>
+					</S.UpdateButton>
+				</View>
 			</S.MainContainer>
 		</Modal>
 	);
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
 	switchContainer: {
 		height: 60,
 		flexDirection: 'row',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	switch: {
 		flex: 1

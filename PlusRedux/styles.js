@@ -36,6 +36,14 @@ export const GridContainer = styled.View`
       justifyContent: center;
 `;
 
+//FirstScreen >>> HiitScreen
+export const MainAccordion = styled.View`
+      flex: 10;
+      backgroundColor: ${props => props.theme.COLORS.BACKGROUND};
+      borderColor: ${props =>props.theme.COLORS.MIDDLEPRIMARY};
+`;
+
+
 //BfScreen & Weight
 export const UpdateButton = styled.TouchableOpacity`
       backgroundColor: ${props => props.theme.COLORS.PRIMARY};
@@ -50,12 +58,12 @@ export const UpdateButton = styled.TouchableOpacity`
 `;
 
 export const UpdateTitle = styled.Text`
+      fontFamily: ${props => props.theme.FONTS.SECONDARY};
       color: ${props =>props.theme.COLORS.TEXT};
       flex: 1;
       fontSize: 20px;
       alignSelf: center;
       textAlign: center;
-      alignContent: space-around;
 `;
 
 export const TitleLeft = styled.Text`
@@ -81,6 +89,8 @@ export const TitleRight = styled.Text`
 export const MainView = styled.View`
       flex: 1;
       backgroundColor: ${props => props.theme.COLORS.BACKGROUND};
+      borderColor: ${props =>props.theme.COLORS.MIDDLEPRIMARY};
+      borderRightWidth: 2px;
 `;
 
 export const Imperial = styled.Text`

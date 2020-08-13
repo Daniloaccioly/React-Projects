@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 const SettingsButton = props =>  {
 
 	const dispatch = useDispatch();
-	const [isSettingsMode, setSettingsMode] = useState(false); // Make Settings visible/invisible
+	const [SettingsMode, setSettingsMode] = useState(false); // Make Settings visible/invisible
 
 	const addSettingsHandler = (SwitchGender, SwitchMeasurement, SwitchTheme) => {
 		//onPress of Save and Exit
@@ -27,7 +27,7 @@ const SettingsButton = props =>  {
 			color={props.theme.COLORS.ICON}
 		/>
             <Settings 
-			visible={isSettingsMode} 
+			visible={SettingsMode} 
                   onSettings={addSettingsHandler} 
             />
 	</TouchableOpacity>
