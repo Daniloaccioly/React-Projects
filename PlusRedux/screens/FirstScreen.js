@@ -22,7 +22,7 @@ const FirstScreen = props => {
 					props.navigation.navigate({
 						routeName: 'HiitScreen',
 						params: {
-							title:itemData.item.title,
+							title: itemData.item.title,
 							Id: itemData.item.id,
 							bgcolor: props.theme.COLORS.PRIMARY,
 							textcolor: props.theme.COLORS.TEXT,

@@ -62,6 +62,7 @@ const HiitScreen = props => {
 	return (
 		<S.MainView style = {{paddingVertical: 10, paddingHorizontal: 10, }}>
 			<Timer
+				number={selectedTraining}
 				visible={isVisible}
 				onChange={quitTimer}
 			/>
