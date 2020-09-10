@@ -3,6 +3,7 @@
     "name": "PlusRedux",
     "slug": "PlusRedux",
     "privacy": "public",
+    "sdkVersion": "34.0.0",
     "platforms": [
       "ios",
       "android",
