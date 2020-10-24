@@ -43,6 +43,12 @@ export const MainAccordion = styled.View`
       borderColor: ${props =>props.theme.COLORS.MIDDLEPRIMARY};
 `;
 
+export const UpDownIcon = styled.TouchableOpacity`
+
+      backgroundColor: ${props => props.theme.COLORS.PRIMARY};
+      borderColor: ${props => props.theme.COLORS.TEXT};
+      borderWidth: 2px;
+`;
 
 //BfScreen & Weight
 export const UpdateButton = styled.TouchableOpacity`
@@ -64,6 +70,7 @@ export const UpdateTitle = styled.Text`
       fontSize: 20px;
       alignSelf: center;
       textAlign: center;
+      justifyContent: center;
 `;
 
 export const TitleLeft = styled.Text`

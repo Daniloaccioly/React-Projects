@@ -75,20 +75,21 @@ const BfScreen = props => {
 			genderv = await AsyncStorage.getItem('@gender');
 
 			if (heightv === null) {
-				storeData((arg1 = '@height'), (arg2 = ''), (arg3 = 'Height'));
+				setHeight('0');
 			}
 
 			if (neckv === null) {
-				storeData((arg1 = '@neck'), (arg2 = ''), (arg3 = 'Neck'));
+				setNeck('0');
 			}
 
 			if (hipv === null) {
-				storeData((arg1 = '@hip'), (arg2 = ''), (arg3 = 'Hip'));
+				setHip('0');
 			}
 
 			if (waistv === null) {
-				storeData((arg1 = '@waist'), (arg2 = ''), (arg3 = 'Waist'));
+				setWaist('0');
 			}
+			
 		} catch (error) {
 			console.log('BfScreen.js: Error retrieving data ' + error);
 		} finally {
@@ -100,17 +101,6 @@ const BfScreen = props => {
 			dispatch(InitValue(genderv, measurev));
 		}
 	}
-
-	storeData = async (arg1, arg2, arg3) => {
-		try {
-			await AsyncStorage.setItem(arg1, arg2);
-			this.setState({
-				arg3: await AsyncStorage.getItem(arg1)
-			});
-		} catch (e) {
-			alert(e);
-		}
-	};
 
 	//Levando em conta que o valor gravado no AsyncStorage é sempre em centimetros
 	function converter(heightn, neckn, hipn, waistn, measures) {
